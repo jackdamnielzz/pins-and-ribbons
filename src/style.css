@@ -1,0 +1,32 @@
+:root {
+  --paper: #ece2c6;
+  --ink: #2a2219;
+  --table: #140d08;
+  /* Google Fonts from PLAN 6.2 are not bundled yet; these fall back to system fonts. */
+  --font-stencil: 'Stardos Stencil', 'Courier New', serif;
+  --font-typewriter: 'Special Elite', 'Courier New', monospace;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: var(--table);
+}
+
+#app {
+  position: fixed;
+  inset: 0;
+}
+
+#app canvas {
+  display: block;
+  touch-action: none;
+}
+
+#ui {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}

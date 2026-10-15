@@ -1,0 +1,31 @@
+.slip {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  padding: 10px 16px 12px;
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.55);
+  transform: rotate(-0.6deg);
+  pointer-events: none;
+  user-select: none;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-stencil);
+  font-size: 22px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.sheet,
+.hint {
+  margin: 2px 0 0;
+  font-family: var(--font-typewriter);
+  font-size: 14px;
+}
+
+.hint {
+  opacity: 0.7;
+}
