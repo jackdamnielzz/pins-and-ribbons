@@ -100,3 +100,28 @@ export function createVignetteTexture(size = 512): Texture {
   ctx.fillRect(0, 0, size, size);
   return Texture.from(canvas);
 }
+
+/** Downscale factor for the shadow canvas; the shadow is soft, so a quarter size is enough. */
+const SHADOW_SCALE = 4;
+
+/**
+ * Soft drop shadow for a rectangle of `width` × `height`, blurred once on a small canvas
+ * (a live blur filter would run every frame). Place the sprite at the rectangle's position
+ * minus `margin` and scale it by `scale`.
+ */
+export function createShadow(
+  width: number,
+  height: number,
+  blur: number,
+): { texture: Texture; margin: number; scale: number } {
+  const pad = Math.ceil(blur / SHADOW_SCALE) * 2;
+  const canvas = document.createElement('canvas');
+  canvas.width = Math.ceil(width / SHADOW_SCALE) + 2 * pad;
+  canvas.height = Math.ceil(height / SHADOW_SCALE) + 2 * pad;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) throw new Error('2D canvas context is not available');
+  ctx.filter = `blur(${blur / SHADOW_SCALE}px)`;
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.75)';
+  ctx.fillRect(pad, pad, width / SHADOW_SCALE, height / SHADOW_SCALE);
+  return { texture: Texture.from(canvas), margin: pad * SHADOW_SCALE, scale: SHADOW_SCALE };
+}

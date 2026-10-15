@@ -75,6 +75,10 @@ Not on the map for lack of a 1944 source:
 | DZ T | An oval 3,000 yards east–west south of Wyler, on both sides of the Groesbeek–Wyler road, with a railway on its south side | [WarHistory.org][whn2m] |
 | Supply dropping point V | In German hands throughout; never reached by the British. TODO(history): no source found that places it | [Battle of Arnhem, Wikipedia][wiki-arnhem] |
 
+## Roads
+
+- The road network is today's OpenStreetMap network without the post-war motorways listed above. Roads built after 1944 in other places (for example through Arnhem-Zuid, Nijmegen-Dukenburg and Lindenholt) are still drawn. TODO(history): a dated 1944 source for the road network, such as the 1944 topographic map sheets, to remove post-war roads.
+
 ## Club Route
 
 XXX Corps was to advance through Valkenswaard, Eindhoven, Son, Veghel, Grave, Nijmegen, Elst and finally Arnhem ([Back to Normandy][btn]). Between Grave and Nijmegen the column crossed the Maas–Waal canal by the Heumen bridge, because the Honinghutje bridge was damaged ([US Army CMH, ch. 7][cmh7]). TODO(history): the exact roads between those places.

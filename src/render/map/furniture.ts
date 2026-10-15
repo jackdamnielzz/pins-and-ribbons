@@ -327,7 +327,19 @@ function drawPencil(data: MapData, geo: SheetGeometry, rng: RngState): Container
   const route = data.hexes.mainRoute.hexes.map(centre);
   if (route.length > 1) {
     pencilLine(g, dashes(smooth(route, 3), 7), rng, true);
-    const mid = route[Math.floor(route.length * 0.55)] as [number, number];
+    // Label the open stretch between the Nijmegen bridge and Elst, away from the town names.
+    const anchorHex = (id: string): Position | undefined => data.hexes.anchors.find((a) => a.id === id)?.hex;
+    const from = anchorHex('nijmegen-road-bridge');
+    const to = anchorHex('elst');
+    const target = from && to ? centre([(from[0] + to[0]) / 2, (from[1] + to[1]) / 2]) : undefined;
+    const mid = target
+      ? route.reduce((best, p) =>
+          Math.hypot(p[0] - target[0], p[1] - target[1]) <
+          Math.hypot(best[0] - target[0], best[1] - target[1])
+            ? p
+            : best,
+        )
+      : (route[Math.floor(route.length / 2)] as [number, number]);
     const label = text(t('map.clubRoute'), FONTS.pencil, 24, MAP_INK.pencil);
     label.anchor.set(0, 0.5);
     label.position.set(mid[0] + 14, mid[1]);

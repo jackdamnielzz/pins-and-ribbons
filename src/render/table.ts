@@ -1,14 +1,14 @@
-import { BlurFilter, Container, Graphics, Sprite, TilingSprite, type Application } from 'pixi.js';
-import { constrain, fitCamera, panBy, zoomAt, type Camera, type Rect } from './camera';
-import { hexCorners, hexToPixel, offset, offsetToAxial } from '../core/hex/index.ts';
+import { Container, Graphics, Sprite, TilingSprite, type Application } from 'pixi.js';
+import { constrain, fitCamera, panBy, screenToWorld, zoomAt, type Camera, type Rect } from './camera';
+import { hexCorners, hexToPixel, neighbours, offset, offsetToAxial } from '../core/hex/index.ts';
 import { hexAtPoint, mapLayout } from '../core/map/lookup.ts';
 import { gridReference } from '../core/map/reference.ts';
 import type { HexRecord } from '../core/map/types.ts';
 import type { MapData } from './map/data';
-import { bake, drawSheetContent, sheetGeometry, type SheetGeometry } from './map/sheet';
+import { bake, drawSheetContent, sheetGeometry, worldToKm, type SheetGeometry } from './map/sheet';
 import { MAP_INK, PX_PER_KM } from './map/style';
 import { PALETTE } from './palette';
-import { createPaperTexture, createVignetteTexture, createWoodTexture } from './textures';
+import { createPaperTexture, createShadow, createVignetteTexture, createWoodTexture } from './textures';
 
 const FIT_PADDING = 64;
 
@@ -54,10 +54,11 @@ export class TableScene {
     this.table = new TilingSprite({ texture: createWoodTexture() });
     this.vignette = new Sprite(createVignetteTexture());
 
-    const shadow = new Graphics()
-      .rect(SHEET.x + 10, SHEET.y + 14, SHEET.width, SHEET.height)
-      .fill({ color: 0x000000, alpha: 0.7 });
-    shadow.filters = [new BlurFilter({ strength: 20, quality: 3 })];
+    // Pre-blurred once; a live blur filter would cost a pass every frame.
+    const soft = createShadow(SHEET.width, SHEET.height, 40);
+    const shadow = new Sprite(soft.texture);
+    shadow.scale.set(soft.scale);
+    shadow.position.set(SHEET.x + 10 - soft.margin, SHEET.y + 14 - soft.margin);
 
     const sheet = new TilingSprite({
       texture: createPaperTexture(),
@@ -161,11 +162,9 @@ export class TableScene {
     const rect = canvas.getBoundingClientRect();
     const sx = e.clientX - rect.left;
     const sy = e.clientY - rect.top;
-    const wx = (sx - this.camera.offsetX) / this.camera.zoom;
-    const wy = (sy - this.camera.offsetY) / this.camera.zoom;
-    const x = (wx - this.geo.mapX) / PX_PER_KM;
-    const y = (wy - this.geo.mapY) / PX_PER_KM;
-    const hex = hexAtPoint(this.data.hexes, mapLayout(this.data.hexes), x, y);
+    const world = screenToWorld(this.camera, sx, sy);
+    const km = worldToKm(this.geo, world.x, world.y);
+    const hex = hexAtPoint(this.data.hexes, mapLayout(this.data.hexes), km.x, km.y);
     this.setHover(hex, sx, sy);
   }
 
@@ -183,7 +182,7 @@ export class TableScene {
     this.options.onHover?.({ hex, reference: gridReference(centre, this.data.originRD), x: sx, y: sy });
   }
 
-  /** Faint pencil hexes around the cursor (PLAN 6.1 item 4). */
+  /** Faint pencil hexes around the cursor (PLAN 6.1 item 4): the hex itself and its ring. */
   private drawHoverOutline(hex: HexRecord | undefined): void {
     const g = this.hoverOutline;
     g.clear();
@@ -193,10 +192,9 @@ export class TableScene {
       this.geo.mapX + p.x * PX_PER_KM,
       this.geo.mapY + p.y * PX_PER_KM,
     ];
-    g.poly(hexCorners(layout, offsetToAxial(offset(hex.col, hex.row))).flatMap(toWorld)).stroke({
-      width: 1.4,
-      color: MAP_INK.pencil,
-      alpha: 0.7,
-    });
+    const at = offsetToAxial(offset(hex.col, hex.row));
+    for (const n of neighbours(at)) g.poly(hexCorners(layout, n).flatMap(toWorld));
+    g.stroke({ width: 0.8, color: MAP_INK.pencil, alpha: 0.25 });
+    g.poly(hexCorners(layout, at).flatMap(toWorld)).stroke({ width: 1.4, color: MAP_INK.pencil, alpha: 0.7 });
   }
 }

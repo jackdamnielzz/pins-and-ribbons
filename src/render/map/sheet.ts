@@ -8,6 +8,7 @@ import { builtUpPattern, heathPattern, polderPattern, waterPattern, woodlandPatt
 import {
   BAKE_RESOLUTION,
   BAKE_TILE_PX,
+  BUILDING_MAX_SIDE_M,
   LABEL_HALO,
   MAP_INK,
   PX_PER_KM,
@@ -47,6 +48,11 @@ export function sheetGeometry(data: MapData): SheetGeometry {
 /** Converts map km to sheet world pixels. */
 export function kmToWorld(geo: SheetGeometry): (p: Position) => [number, number] {
   return ([x, y]) => [geo.mapX + x * PX_PER_KM, geo.mapY + y * PX_PER_KM];
+}
+
+/** Converts sheet world pixels back to map km. */
+export function worldToKm(geo: SheetGeometry, wx: number, wy: number): { x: number; y: number } {
+  return { x: (wx - geo.mapX) / PX_PER_KM, y: (wy - geo.mapY) / PX_PER_KM };
 }
 
 function flat(points: Position[], toWorld: (p: Position) => [number, number]): number[] {
@@ -168,8 +174,10 @@ function drawSettlements(
   const cells = data.buildings;
   for (let i = 0; i + 2 < cells.length; i += 3) {
     const [x, y] = toWorld([(cells[i] as number) / 1000, (cells[i + 1] as number) / 1000]);
-    // Footprints are drawn slightly larger than true scale, as on a 1:100,000 sheet.
-    const side = Math.max(1.4, ((cells[i + 2] as number) / 1000) * PX_PER_KM * 1.6);
+    // Small footprints are drawn larger than true scale, as on a 1:100,000 sheet; very large
+    // ones (factories, churches) are capped so they do not read as black blocks.
+    const sideM = Math.min(cells[i + 2] as number, BUILDING_MAX_SIDE_M);
+    const side = Math.max(1.4, (sideM / 1000) * PX_PER_KM * 1.6);
     g.rect(x - side / 2, y - side / 2, side, side);
   }
   g.fill({ color: MAP_INK.building, alpha: 0.85 });
@@ -258,7 +266,7 @@ export function drawSheetContent(data: MapData, geo: SheetGeometry): Container {
 
 /**
  * Renders `content` once into tiles at BAKE_RESOLUTION and returns sprites in its place.
- * The content is destroyed afterwards; only the textures stay in memory.
+ * The vector content is destroyed afterwards; the baked textures (and the small label textures) stay.
  */
 export function bake(renderer: Renderer, content: Container, geo: SheetGeometry): Container {
   const started = performance.now();
@@ -279,7 +287,17 @@ export function bake(renderer: Renderer, content: Container, geo: SheetGeometry)
       out.addChild(sprite);
     }
   }
-  content.destroy({ children: true });
+  // Free the vector geometry, which is most of the memory. Label textures stay: the renderer
+  // keeps them in cached bind groups, and destroying them there only produces warnings.
+  const graphics: Graphics[] = [];
+  const collect = (c: Container): void => {
+    for (const child of c.children) {
+      if (child instanceof Graphics) graphics.push(child);
+      else collect(child);
+    }
+  };
+  collect(content);
+  for (const g of graphics) g.destroy();
   if (import.meta.env.DEV) console.info(`map baked in ${Math.round(performance.now() - started)} ms`);
   return out;
 }

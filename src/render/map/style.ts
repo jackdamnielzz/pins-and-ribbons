@@ -36,6 +36,8 @@ export const ROAD_WIDTH: Record<string, number> = {
   secondary: 1.7,
   tertiary: 1.1,
 };
+/** Largest building drawn, in metres along a side; bigger footprints are drawn this size. */
+export const BUILDING_MAX_SIDE_M = 35;
 /** Extra width of the dark road casing on each road. */
 export const ROAD_CASING = 1;
 /** Paper-coloured halo behind map labels, so names stay readable over buildings. */
