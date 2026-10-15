@@ -382,7 +382,7 @@ The look is "The General's Map Table": a 1944 staff map on a dark wooden table u
 | German field grey | German blocks | #5A6163 |
 | Water | Rivers | #A8C2CC |
 
-Fonts (all Google Fonts, SIL Open Font License): **Stardos Stencil** for titles and unit names, **Special Elite** for typewriter text and signals, **IM Fell English** for map labels, **Reenie Beanie** for pencil annotations.
+Fonts (from the Google Fonts library, self-hosted in `assets/fonts/`, see decision 0003; SIL Open Font License except Special Elite, which is Apache 2.0): **Stardos Stencil** for titles and unit names, **Special Elite** for typewriter text and signals, **IM Fell English** for map labels, **Reenie Beanie** for pencil annotations.
 
 Faction is never shown by colour alone: German blocks carry a black cross (Balkenkreuz) on the sticker, Allied blocks a roundel or star, so the game is colour-blind safe.
 
@@ -392,6 +392,7 @@ Faction is never shown by colour alone: German blocks carry a black cross (Balke
 | --- | --- | --- |
 | Map | Generated from OpenStreetMap and elevation data (section 9) | ODbL attribution in credits |
 | Unit blocks, NATO symbols, pins, ribbons, stamps | Procedural (SVG and PixiJS Graphics) | Own |
+| Fonts | Google Fonts library, self-hosted as woff2 in `assets/fonts/` | SIL OFL 1.1; Special Elite Apache 2.0 |
 | Wood, paper, leather textures | ambientCG, Poly Haven | CC0 |
 | Illustrations (title screen, officer portraits, Steam capsule art) | AI image generation from the prompt library in `docs/art-prompts.md` | Own, check generator terms for commercial use |
 | Sound effects | freesound.org (CC0 only) or generated | CC0 |

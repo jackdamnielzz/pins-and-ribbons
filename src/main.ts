@@ -4,6 +4,7 @@ import { applyFontVariables, loadFonts } from './render/fonts';
 import { PALETTE } from './render/palette';
 import { TableScene } from './render/table';
 import { TitleSlip } from './ui/TitleSlip';
+import './fonts.css';
 import './style.css';
 
 async function boot(): Promise<void> {

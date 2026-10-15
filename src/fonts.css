@@ -1,0 +1,52 @@
+/*
+ * Self-hosted typefaces from PLAN 6.2 (decision 0003). Licences sit next to each file
+ * in assets/fonts/ and are listed in docs/licences.md. Stacks: src/render/fonts.ts.
+ */
+
+@font-face {
+  font-family: 'Stardos Stencil';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../assets/fonts/stardos-stencil/StardosStencil-Regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Stardos Stencil';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../assets/fonts/stardos-stencil/StardosStencil-Bold.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Special Elite';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../assets/fonts/special-elite/SpecialElite-Regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'IM Fell English';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../assets/fonts/im-fell-english/IMFellEnglish-Regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'IM Fell English';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../assets/fonts/im-fell-english/IMFellEnglish-Italic.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Reenie Beanie';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../assets/fonts/reenie-beanie/ReenieBeanie-Regular.woff2') format('woff2');
+}

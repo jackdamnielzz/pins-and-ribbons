@@ -1,5 +1,5 @@
 /**
- * Typefaces from PLAN 6.2, loaded from Google Fonts in index.html.
+ * Typefaces from PLAN 6.2, self-hosted from assets/fonts/ via @font-face in src/fonts.css.
  * Each stack falls back to similar system faces if the web font is unavailable.
  * The stacks work as CSS `font-family` values and as PixiJS `fontFamily` values.
  */
@@ -14,7 +14,7 @@ export const FONTS = {
   pencil: "'Reenie Beanie', 'Bradley Hand', 'Segoe Print', 'Comic Sans MS', cursive",
 } as const;
 
-/** Every face index.html requests, in CSS `font` shorthand for `FontFaceSet.load`. */
+/** Every face declared in src/fonts.css, in CSS `font` shorthand for `FontFaceSet.load`. */
 export const FONT_FACES = [
   "400 16px 'Stardos Stencil'",
   "700 16px 'Stardos Stencil'",
