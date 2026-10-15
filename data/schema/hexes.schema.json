@@ -1,0 +1,173 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pins-and-ribbons.local/schema/hexes.schema.json",
+  "title": "Hex map",
+  "description": "data/maps/<region>/hexes.json, written by tools/mapgen (PLAN 9 step 8). Hex positions are odd-r offset [col, row]; directions are 0-5 (E, NE, NW, W, SW, SE) as in src/core/hex.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "id",
+    "name",
+    "grid",
+    "elevationBandLowerBoundsM",
+    "hexes",
+    "crossings",
+    "anchors",
+    "mainRoute"
+  ],
+  "properties": {
+    "version": { "const": 1 },
+    "id": { "$ref": "#/$defs/id" },
+    "name": { "type": "string", "minLength": 1 },
+    "grid": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["orientation", "offset", "cols", "rows", "hexAcrossFlatsKm", "origin"],
+      "properties": {
+        "orientation": { "const": "pointy" },
+        "offset": { "const": "odd-r" },
+        "cols": { "type": "integer", "minimum": 1 },
+        "rows": { "type": "integer", "minimum": 1 },
+        "hexAcrossFlatsKm": { "type": "number", "exclusiveMinimum": 0 },
+        "origin": {
+          "description": "Centre of hex [0, 0] in map km (x east, y south, from the north-west corner).",
+          "$ref": "#/$defs/point"
+        }
+      }
+    },
+    "elevationBandLowerBoundsM": {
+      "description": "Lower bound of each elevation band above band 0, in metres, ascending.",
+      "type": "array",
+      "items": { "type": "number" }
+    },
+    "hexes": {
+      "description": "Every hex of the grid in row-major order.",
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/hex" }
+    },
+    "crossings": { "type": "array", "items": { "$ref": "#/$defs/crossing" } },
+    "anchors": { "type": "array", "items": { "$ref": "#/$defs/anchor" } },
+    "mainRoute": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["via", "note"],
+      "properties": {
+        "via": {
+          "description": "Objective or crossing ids the main road must cross, south to north.",
+          "type": "array",
+          "items": { "$ref": "#/$defs/id" }
+        },
+        "note": { "type": "string" }
+      }
+    }
+  },
+  "$defs": {
+    "id": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9-]*$" },
+    "direction": { "type": "integer", "minimum": 0, "maximum": 5 },
+    "hexPos": {
+      "type": "array",
+      "prefixItems": [
+        { "type": "integer", "minimum": 0 },
+        { "type": "integer", "minimum": 0 }
+      ],
+      "items": false,
+      "minItems": 2
+    },
+    "point": {
+      "type": "array",
+      "prefixItems": [{ "type": "number" }, { "type": "number" }],
+      "items": false,
+      "minItems": 2
+    },
+    "terrain": { "enum": ["open", "heath", "polder", "woodland", "built-up", "bridge", "river"] },
+    "hex": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "col",
+        "row",
+        "terrain",
+        "road",
+        "rail",
+        "elevationM",
+        "elevationBand",
+        "riverEdges",
+        "edgeCrossings"
+      ],
+      "properties": {
+        "col": { "type": "integer", "minimum": 0 },
+        "row": { "type": "integer", "minimum": 0 },
+        "terrain": { "$ref": "#/$defs/terrain" },
+        "road": { "type": "boolean" },
+        "rail": { "type": "boolean" },
+        "elevationM": { "type": "number" },
+        "elevationBand": { "type": "integer", "minimum": 0 },
+        "riverEdges": {
+          "description": "Directions of edges a river runs across.",
+          "type": "array",
+          "items": { "$ref": "#/$defs/direction" },
+          "uniqueItems": true
+        },
+        "edgeCrossings": {
+          "description": "River edges a bridge or ferry crosses.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["dir", "crossing"],
+            "properties": {
+              "dir": { "$ref": "#/$defs/direction" },
+              "crossing": { "$ref": "#/$defs/id" }
+            }
+          }
+        },
+        "crossings": {
+          "description": "Bridges or ferries that run through this hex.",
+          "type": "array",
+          "items": { "$ref": "#/$defs/id" },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "town": { "type": "string", "minLength": 1 }
+      }
+    },
+    "crossing": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind", "name", "river", "osmId", "at", "banks"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "kind": { "enum": ["road", "rail", "ferry"] },
+        "name": { "type": "string" },
+        "river": { "type": "string", "minLength": 1 },
+        "osmId": { "type": "string", "pattern": "^(node|way|relation)/[0-9]+$" },
+        "at": { "$ref": "#/$defs/point" },
+        "banks": {
+          "description": "The hexes on either bank, north (or west) bank first.",
+          "type": "array",
+          "prefixItems": [{ "$ref": "#/$defs/hexPos" }, { "$ref": "#/$defs/hexPos" }],
+          "items": false,
+          "minItems": 2
+        }
+      }
+    },
+    "anchor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "kind", "source"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "name": { "type": "string", "minLength": 1 },
+        "kind": { "enum": ["objective", "zone"] },
+        "hex": { "$ref": "#/$defs/hexPos" },
+        "crossing": { "$ref": "#/$defs/id" },
+        "relation": { "type": "string" },
+        "todo": { "type": "string", "pattern": "TODO\\(history\\)" },
+        "source": { "type": "string", "minLength": 1 }
+      },
+      "oneOf": [{ "required": ["hex"] }, { "required": ["todo"] }]
+    }
+  }
+}
