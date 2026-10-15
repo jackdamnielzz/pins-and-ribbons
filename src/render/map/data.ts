@@ -3,6 +3,7 @@ import buildingsUrl from '../../../data/maps/the-island/buildings.json?url';
 import hexesUrl from '../../../data/maps/the-island/hexes.json?url';
 import labelsUrl from '../../../data/maps/the-island/labels.json?url';
 import layersUrl from '../../../data/maps/the-island/layers.geojson?url';
+import metaUrl from '../../../data/maps/the-island/meta.json?url';
 
 /** The generated map files of one region (PLAN 9 step 8), as the renderer reads them. */
 
@@ -35,6 +36,8 @@ export interface MapData {
   labels: Label[];
   /** Flat [x, y, side] triples in map metres. */
   buildings: number[];
+  /** RD New coordinates of map km (0, 0). */
+  originRD: { x: number; y: number };
 }
 
 async function getJson<T>(url: string): Promise<T> {
@@ -44,11 +47,12 @@ async function getJson<T>(url: string): Promise<T> {
 }
 
 export async function loadMapData(): Promise<MapData> {
-  const [hexes, layers, labels, buildings] = await Promise.all([
+  const [hexes, layers, labels, buildings, meta] = await Promise.all([
     getJson<HexMap>(hexesUrl),
     getJson<{ features: LayerFeature[] }>(layersUrl),
     getJson<Label[]>(labelsUrl),
     getJson<{ cells: number[] }>(buildingsUrl),
+    getJson<{ originRD: { x: number; y: number } }>(metaUrl),
   ]);
-  return { hexes, layers: layers.features, labels, buildings: buildings.cells };
+  return { hexes, layers: layers.features, labels, buildings: buildings.cells, originRD: meta.originRD };
 }

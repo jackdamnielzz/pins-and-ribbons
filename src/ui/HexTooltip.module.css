@@ -1,0 +1,34 @@
+.slip {
+  position: fixed;
+  min-width: 140px;
+  padding: 6px 10px 7px;
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
+  transform: rotate(0.4deg);
+  pointer-events: none;
+  user-select: none;
+  font-family: var(--font-typewriter);
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.slip p {
+  margin: 0;
+}
+
+.town {
+  font-family: var(--font-map-label);
+  font-size: 16px;
+}
+
+.terrain {
+  font-family: var(--font-stencil);
+  font-size: 15px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.line {
+  opacity: 0.85;
+}

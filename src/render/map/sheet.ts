@@ -1,9 +1,20 @@
 import { Container, Graphics, Rectangle, Sprite, Text, type FillPattern, type Renderer } from 'pixi.js';
 import { hexCorners, layoutAcrossFlats, offsetToAxial, offset } from '../../core/hex/index.ts';
 import { FONTS } from '../fonts';
+import { PALETTE } from '../palette';
 import type { LayerFeature, MapData, Position } from './data';
+import { drawFurniture } from './furniture';
 import { builtUpPattern, heathPattern, polderPattern, waterPattern, woodlandPattern } from './patterns';
-import { BAKE_RESOLUTION, BAKE_TILE_PX, MAP_INK, PX_PER_KM, ROAD_WIDTH, SHEET_MARGIN_KM } from './style';
+import {
+  BAKE_RESOLUTION,
+  BAKE_TILE_PX,
+  LABEL_HALO,
+  MAP_INK,
+  PX_PER_KM,
+  ROAD_CASING,
+  ROAD_WIDTH,
+  SHEET_MARGIN_KM,
+} from './style';
 
 /**
  * The map sheet (PLAN 6.1 item 2, PLAN 9): drawn once from the generated map data into a
@@ -178,7 +189,7 @@ function drawTransport(data: MapData, toWorld: (p: Position) => [number, number]
     strokeLines(
       g,
       roads.filter((f) => f.properties.class === cls),
-      { width: width + 1.4, color: MAP_INK.roadCasing },
+      { width: width + ROAD_CASING, color: MAP_INK.roadCasing },
       toWorld,
     );
   }
@@ -211,6 +222,7 @@ function drawLabels(data: MapData, toWorld: (p: Position) => [number, number]): 
         fill: MAP_INK.label,
         letterSpacing: label.priority <= 2 ? size * 0.12 : 0,
         fontStyle: label.priority >= 4 ? 'italic' : 'normal',
+        stroke: { color: PALETTE.paper, width: LABEL_HALO, join: 'round' },
       },
       resolution: BAKE_RESOLUTION * 2,
     });
@@ -239,6 +251,7 @@ export function drawSheetContent(data: MapData, geo: SheetGeometry): Container {
     drawSettlements(data, geo, toWorld),
     drawTransport(data, toWorld),
     drawLabels(data, toWorld),
+    drawFurniture(data, geo),
   );
   return content;
 }
@@ -248,6 +261,7 @@ export function drawSheetContent(data: MapData, geo: SheetGeometry): Container {
  * The content is destroyed afterwards; only the textures stay in memory.
  */
 export function bake(renderer: Renderer, content: Container, geo: SheetGeometry): Container {
+  const started = performance.now();
   const out = new Container();
   for (let y = 0; y < geo.height; y += BAKE_TILE_PX / BAKE_RESOLUTION) {
     for (let x = 0; x < geo.width; x += BAKE_TILE_PX / BAKE_RESOLUTION) {
@@ -266,5 +280,6 @@ export function bake(renderer: Renderer, content: Container, geo: SheetGeometry)
     }
   }
   content.destroy({ children: true });
+  if (import.meta.env.DEV) console.info(`map baked in ${Math.round(performance.now() - started)} ms`);
   return out;
 }

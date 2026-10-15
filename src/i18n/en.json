@@ -1,5 +1,21 @@
 {
   "app.title": "Pins & Ribbons",
   "app.sheet": "Sheet 1 · Arnhem – Nijmegen",
-  "app.controlsHint": "Drag to pan · Mouse wheel to zoom"
+  "app.controlsHint": "Drag to pan · Mouse wheel to zoom · Hover for terrain",
+  "map.cartouche": "Sheet 1 · Arnhem – Nijmegen · 1:100,000",
+  "map.gridNote": "Nord de Guerre grid · 1 kilometre squares",
+  "map.scaleUnit": "Kilometres",
+  "map.north": "N",
+  "map.clubRoute": "Club Route",
+  "terrain.open": "Open fields",
+  "terrain.heath": "Heath",
+  "terrain.polder": "Polder",
+  "terrain.woodland": "Woodland",
+  "terrain.built-up": "Built-up",
+  "terrain.bridge": "Bridge",
+  "terrain.river": "River",
+  "tooltip.road": "Road",
+  "tooltip.noRoad": "No road",
+  "tooltip.rail": "Railway",
+  "tooltip.ref": "Map ref."
 }

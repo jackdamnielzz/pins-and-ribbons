@@ -31,8 +31,12 @@ export const MAP_INK = {
 } as const;
 
 export const ROAD_WIDTH: Record<string, number> = {
-  trunk: 3.2,
-  primary: 3,
-  secondary: 2.4,
-  tertiary: 1.6,
+  trunk: 2.4,
+  primary: 2.2,
+  secondary: 1.7,
+  tertiary: 1.1,
 };
+/** Extra width of the dark road casing on each road. */
+export const ROAD_CASING = 1;
+/** Paper-coloured halo behind map labels, so names stay readable over buildings. */
+export const LABEL_HALO = 3;
