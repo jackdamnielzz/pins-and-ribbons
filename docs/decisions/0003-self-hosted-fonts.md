@@ -8,7 +8,7 @@ Status: Accepted
 The four typefaces from PLAN 6.2 were loaded from Google's font servers (`fonts.googleapis.com` and `fonts.gstatic.com`). That has two problems:
 
 - **Offline play for Steam.** The Tauri build must work without a network connection. Without one, every font fell back to a system face.
-- **No third-party requests (GDPR).** Loading fonts from Google sends each player's IP address to a third party without consent. German courts have ruled this a GDPR breach (LG München I, 3 O 17493/20, 20 January 2022).
+- **No third-party requests (GDPR).** Loading fonts from Google sends each player's IP address to a third party without consent. Landgericht München I ruled this a GDPR breach on 20 January 2022 (case 3 O 17493/20).
 
 ## Decision
 
@@ -22,5 +22,5 @@ The four typefaces from PLAN 6.2 were loaded from Google's font servers (`fonts.
 
 - The fonts add about 330 KB to the build, all downloaded at startup.
 - Licences are listed in `docs/licences.md`.
-- The release build must ship the licence files alongside the fonts. This is tracked in `docs/licences.md`.
+- The build copies each font's licence file next to the font (`font-licences` plugin in `vite.config.ts`).
 - Special Elite is licensed under Apache 2.0, not the OFL. PLAN 6.2 has been corrected.

@@ -13,4 +13,4 @@ Self-hosted in `assets/fonts/` (decision 0003). Each woff2 file is an unmodified
 | IM Fell English | Regular, Italic | Igino Marini | Copyright (c) 2010, Igino Marini, with Reserved Font Names "IM FELL English Roman" and "IM FELL English Italic" | SIL Open Font License 1.1 | `assets/fonts/im-fell-english/OFL.txt` |
 | Reenie Beanie | Regular | James Grieshaber | Copyright (c) 2010, James Grieshaber | SIL Open Font License 1.1 | `assets/fonts/reenie-beanie/OFL.txt` |
 
-To do before release: the Tauri bundle must include the licence files above (the Vite build only copies the woff2 files), and the credits must name each font and its licence.
+The build copies each licence file next to its font in `dist/assets/fonts/<family>/` (the `font-licences` plugin in `vite.config.ts`). The credits must still name each font and its licence.
