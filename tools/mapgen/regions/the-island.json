@@ -270,9 +270,9 @@
     {
       "id": "LZ-L",
       "name": "LZ L",
-      "near": [5.8374, 51.9983],
-      "relation": "Johannahoeve, north of Oosterbeek",
-      "source": "docs/history/zones.md (PLAN 5.2). Anchor: OSM road Johannahoeve north of Oosterbeek. TODO(history): a dated source for the zone position."
+      "near": [5.829859, 52.004377],
+      "relation": "Johannahoeve, north of the Wolfheze–Oosterbeek railway",
+      "source": "docs/history/map.md (Landing and drop zones). Anchor: https://www.liberationroute.com/pois/2189/landing-in-hell"
     },
     {
       "id": "V",
@@ -287,8 +287,15 @@
         "id": "arnhem-road-bridge",
         "bank": "south"
       },
-      "relation": "south end of the Arnhem road bridge",
+      "relation": "planned Polish zone at the south end of the Arnhem road bridge (not used)",
       "source": "docs/history/zones.md (PLAN 5.2). Anchor: the south bank hex of the Arnhem road bridge."
+    },
+    {
+      "id": "DZ-POLISH-DRIEL",
+      "name": "Polish DZ (Driel)",
+      "near": [5.8308, 51.9592],
+      "relation": "polder east of Driel; actual Polish drop on 21 Sep, about 17:00, after the slice ends",
+      "source": "docs/history/zones.md and docs/history/map.md (Landing and drop zones). Anchor: 1 km east of the OSM place node Driel; the sources say 'east of Driel'."
     },
     {
       "id": "DZ-O",

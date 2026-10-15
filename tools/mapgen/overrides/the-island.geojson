@@ -444,7 +444,7 @@
         "id": "heath-renkum",
         "action": "cover",
         "cover": "heath",
-        "note": "Convex hull of the sourced points (Renkum Heath Memorial, Liberation Route marker 467, OSM Renkumse Heide), widened by 600 m. The width is a design choice; HGN 1900/1960 could not be used (decision 0006).",
+        "note": "Convex hull of the sourced points (Renkum Heath Memorial, Liberation Route marker 467, OSM Renkumse Heide), widened by 600 m. The width is a design choice; HGN is not used in version 1.0 (decision 0007).",
         "source": "docs/history/map.md (Heath): Renkum Heath, landing area of DZ X, LZ X and LZ Z."
       }
     },
@@ -482,13 +482,12 @@
         "id": "heath-ginkel",
         "action": "cover",
         "cover": "heath",
-        "note": "Convex hull of the sourced points (Liberation Route markers 501, 705 and 706, Airborne Monument), widened by 600 m. The width is a design choice; HGN 1900/1960 could not be used (decision 0006).",
+        "note": "Convex hull of the sourced points (Liberation Route markers 501, 705 and 706, Airborne Monument), widened by 600 m. The width is a design choice; HGN is not used in version 1.0 (decision 0007).",
         "source": "docs/history/map.md (Heath): Ginkel Heath, DZ Y."
       }
     }
   ],
   "todo": [
-    "TODO(history): HGN 1900 and 1960 (WUR) are CC-BY but only handed out through a request form; with them, heath and woodland could come from 1944-era land use instead of today's OpenStreetMap plus the two sourced heath polygons (decision 0006).",
     "TODO(history): 1944 built-up area on the German side of the border (Wyler, Kranenburg, Zyfflich). BAG covers the Netherlands only, so these villages are not built-up on the map.",
     "TODO(history): supply dropping point V. No source found that places it.",
     "TODO(history): Westervoort IJssel bridges. No source found for their state in September 1944, so they are not on the map; the IJssel has no crossing.",

@@ -58,7 +58,7 @@ Not on the map for lack of a 1944 source:
 
 - **Renkum Heath (DZ X, LZ X, LZ Z):** paratroopers and gliders of 1st Airborne Division landed in the fields around the Renkum Heath Memorial, which stands on the edge of drop zone X (51.987189 N, 5.743567 E) ([Stichting Airborne Herdenkingen][rhm]); landings on 17 Sep at Renkum, marker at 51.988455 N, 5.745893 E ([Liberation Route 467][lr467]). LZ Z lies west of Wolfheze ([Battle of Arnhem, Wikipedia][wiki-arnhem]).
 - **Ginkel Heath (DZ Y):** heath near Ede where the 4th Parachute Brigade landed on 18 Sep ([Ginkelse Heide, Wikipedia NL][wiki-ginkel]; [Liberation Route 705][lr705], [501][lr501], [706][lr706]).
-- HGN 1900 and 1960 (WUR, CC-BY) could not be used: the files are only handed out through a request form ([lgn.nl][lgn]). TODO(history).
+- HGN 1900 and 1960 (WUR, CC-BY) are only handed out through a request form ([lgn.nl][lgn]). Decision 0007: HGN is not used in version 1.0; woodland comes from today's OpenStreetMap.
 
 ## Landing and drop zones (locations)
 
@@ -70,6 +70,8 @@ Not on the map for lack of a 1944 source:
 | DZ Y | Ginkel Heath, marker 705 | [Liberation Route 705][lr705] |
 | DZ O | Meadows north of Overasselt and Nederasselt, marker at 51.768510 N, 5.770290 E | [Liberation Route 450][lr450] |
 | DZ N | South of Groesbeek, marker at 51.758296 N, 5.920805 E | [Liberation Route 457][lr457] |
+| LZ L | Just north of the Wolfheze–Oosterbeek railway at the Johannahoeve; the Papendal sports centre covers its western part. Marker at 52.004377 N, 5.829859 E | [Liberation Route 2189][lr2189] |
+| Polish DZ (Driel) | East of Driel; about 1,000 Poles landed around 17:00 on 21 Sep | [battle-of-arnhem.com][polishdrop], [Paradata][paradata-polish] |
 | DZ T | An oval 3,000 yards east–west south of Wyler, on both sides of the Groesbeek–Wyler road, with a railway on its south side | [WarHistory.org][whn2m] |
 | Supply dropping point V | In German hands throughout; never reached by the British. TODO(history): no source found that places it | [Battle of Arnhem, Wikipedia][wiki-arnhem] |
 
@@ -123,3 +125,6 @@ XXX Corps was to advance through Valkenswaard, Eindhoven, Son, Veghel, Grave, Ni
 [wiki-ginkel]: https://nl.wikipedia.org/wiki/Ginkelse_Heide
 [lgn]: https://lgn.nl/bestanden
 [btn]: https://www.backtonormandy.org/the-history/divisions-armored/guards-armoured-division-uk/153-field-regiment-ra/13628-153rd-field-regiment-royal-artillery-at-nijmegen/visit.html?cf_id=33
+[lr2189]: https://liberationroute.com/pois/2189/landing-in-hell
+[polishdrop]: https://www.battle-of-arnhem.com/the-airborne-landing-of-the-polish-brigade-near-driel/
+[paradata-polish]: https://paradata.org.uk/content/4634452

@@ -165,7 +165,6 @@
     }
   ],
   "todo": [
-    "TODO(history): HGN 1900 and 1960 (WUR) are CC-BY but only handed out through a request form; with them, heath and woodland could come from 1944-era land use instead of today's OpenStreetMap plus the two sourced heath polygons (decision 0006).",
     "TODO(history): 1944 built-up area on the German side of the border (Wyler, Kranenburg, Zyfflich). BAG covers the Netherlands only, so these villages are not built-up on the map.",
     "TODO(history): supply dropping point V. No source found that places it.",
     "TODO(history): Westervoort IJssel bridges. No source found for their state in September 1944, so they are not on the map; the IJssel has no crossing.",

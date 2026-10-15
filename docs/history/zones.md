@@ -19,12 +19,15 @@ Zones S, Z, X, Y, L, V, O, N and T are confirmed (PLAN §14.2).
 | DZ X | Renkum Heath | 1st Parachute Brigade parachutists and 1st Parachute Squadron RE (17 Sep) | Location: [map.md](map.md); units: PLAN §5.2, TODO(history) |
 | DZ Y | Ginkel Heath, west edge | 4th Parachute Brigade (18 Sep) | [map.md](map.md) (Ginkel Heath, 4th Parachute Brigade, 18 Sep); west edge: TODO(history) |
 | LZ X | Next to DZ X | Second-lift gliders, including the rest of 2 S Staffords (18 Sep) | [1st Airlanding Bde report][airlanding] |
-| LZ L | Johannahoeve, north of Oosterbeek | Polish anti-tank battery gliders (19 Sep) | PLAN §5.2, TODO(history) |
+| LZ L | Johannahoeve, north of the Wolfheze–Oosterbeek railway | Polish anti-tank battery gliders (19 Sep) | [Liberation Route 2189][lzl] |
 | Supply dropping point V | North-west Arnhem | Planned resupply zone; in German hands from 19 Sep | PLAN §5.2, TODO(history) |
-| DZ K | South end of the Arnhem road bridge | Planned Polish drop; replaced by the polder east of Driel (21 Sep, after the slice ends) | PLAN §5.2, TODO(history) |
+| DZ K | South end of the Arnhem road bridge | Planned Polish drop; never used, because the area was in German hands | PLAN §5.2, TODO(history) |
+| Polish DZ (Driel) | Polder east of Driel | Actual Polish drop on 21 Sep around 17:00, about 1,000 men (after the slice ends). Some sources call this zone DZ K too | [battle-of-arnhem.com][polishdrop], [Paradata][paradata-polish] |
 | DZ O | Overasselt | 504th PIR; E Company on a separate zone next to the Grave bridge | [map.md](map.md) (504th north of Overasselt; E Company landed far from its goal) |
 | DZ N | South of Groesbeek | 505th PIR, 82nd Division HQ, 376th Parachute Field Artillery Bn; gliders on 18 Sep | Location: [map.md](map.md); units: PLAN §5.2, TODO(history) |
 | DZ T | South of Wyler, north-east of Groesbeek | 508th PIR; gliders on 18 Sep | [map.md](map.md) (508th on both sides of the Groesbeek–Wyler road; retaken 18 Sep about 14:00 before the gliders) |
+
+DZ K and the Polish DZ at Driel are kept apart in the game: DZ K is the zone the plan named, and "Polish DZ (Driel)" is where the brigade actually dropped. Paradata and TracesOfWar use the name DZ K for the Driel zone.
 
 ## Bridges and crossings
 
@@ -57,3 +60,6 @@ Game rules tied to these crossings (PLAN §5.1, §5.5): the Heveadorp ferry is u
 [ferry]: https://france.liberationroute.com/pois/657/the-driel-ferry-disabled-for-the-germans-and-unusable-for-the-poles
 [groesbeek]: https://warfarehistorynetwork.com/article/u-s-82nd-airborne-division-mook-holland-operation-market-garde/
 [spz506]: https://en.wikipedia.org/wiki/506th_Heavy_Panzer_Battalion
+[polishdrop]: https://www.battle-of-arnhem.com/the-airborne-landing-of-the-polish-brigade-near-driel/
+[paradata-polish]: https://paradata.org.uk/content/4634452
+[lzl]: https://liberationroute.com/pois/2189/landing-in-hell
