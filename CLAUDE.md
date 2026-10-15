@@ -20,3 +20,8 @@ The full design and plan is in docs/PLAN.md. Read the relevant sections before s
 - npm run lint       lint and type-check
 - npm run mapgen     regenerate map data
 - npm run balance    headless balance runner
+
+## Autonomy
+- Decide yourself on technical choices, implementation details, tuning numbers and historical details that have a source. Record each non-obvious decision in docs/decisions/.
+- Ask the product owner only for: new runtime dependencies, anything that costs money or needs his personal details or accounts, changes to the locked decisions in PLAN §2, and historical conflicts you cannot resolve with sources.
+- After each milestone, review your own work against the acceptance criteria and the design pillars in PLAN §1 as a strict outside reviewer, fix what you find, then report: what was built, how to check it in the browser, decisions made, and open TODO(history) items.
