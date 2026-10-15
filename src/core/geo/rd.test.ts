@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { fromRD, toRD } from './projection.ts';
+import { fromRD, toRD } from './rd.ts';
 
 describe('RD New projection', () => {
   it('maps the Amersfoort reference point to (155000, 463000)', () => {

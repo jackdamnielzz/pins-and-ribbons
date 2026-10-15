@@ -7,7 +7,7 @@ import {
   oppositeDirection,
   type Direction,
 } from '../../src/core/hex/index.ts';
-import type { CrossingRecord, HexRecord } from './map-types.ts';
+import type { CrossingRecord, HexRecord } from '../../src/core/map/types.ts';
 import { blankHexes, crossingOf, mapOf } from './test-maps.ts';
 import { findMainRoute, validateMap } from './validate.ts';
 

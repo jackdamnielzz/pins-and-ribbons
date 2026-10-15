@@ -33,11 +33,11 @@ import {
 } from './classify.ts';
 import { contour, loadTile, resample, smooth, type HgtTile } from './elevation.ts';
 import { clipLine, clipRing, ringArea, simplify, simplifyRing, type Box, type Pt } from './geometry.ts';
-import type { AnchorRecord, CrossingRecord, HexMap, HexRecord, Terrain } from './map-types.ts';
+import type { AnchorRecord, CrossingRecord, HexMap, HexRecord, Terrain } from '../../src/core/map/types.ts';
 import { convertLayer, type ConvertStats, type MapFeature } from './osm.ts';
 import { applyOverrides, coverAreas, loadOverrides, type Override } from './overrides.ts';
 import { fetchLayer, layerQueries, type BBox } from './overpass.ts';
-import { fromRD, toRD, type LonLat } from './projection.ts';
+import { fromRD, toRD, type LonLat } from '../../src/core/geo/rd.ts';
 import { loadRegion, type Region } from './region.ts';
 import { findMainRoute, validateMap } from './validate.ts';
 
@@ -383,6 +383,21 @@ async function main(): Promise<void> {
     ];
   });
   writeFileSync(join(outDir, 'labels.json'), `${JSON.stringify(labels, null, 1)}\n`);
+  // 1944 buildings for the renderer: [x, y, side] in map metres, one building per triple.
+  const buildingCells: number[] = [];
+  for (const b of [...buildings].sort((p, q) => p.y - q.y || p.x - q.x)) {
+    const x = Math.round(b.x - region.originRD.x);
+    const y = Math.round(region.originRD.y - b.y);
+    if (x < 0 || y < 0 || x > grid.widthKm * 1000 || y > grid.heightKm * 1000) continue;
+    buildingCells.push(x, y, Math.max(4, Math.round(Math.sqrt(b.areaM2))));
+  }
+  const buildingFile = {
+    units: 'map metres, x east and y south',
+    format: 'x, y, side',
+    maxYear: region.builtUp.maxYear,
+    cells: buildingCells,
+  };
+  writeFileSync(join(outDir, 'buildings.json'), `${JSON.stringify(buildingFile)}\n`);
   const meta = {
     id: region.id,
     name: region.name,

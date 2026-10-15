@@ -8,7 +8,13 @@ import {
   type Direction,
   type Offset,
 } from '../../src/core/hex/index.ts';
-import { CROSSING_STATES, TERRAINS, type HexMap, type HexPos, type HexRecord } from './map-types.ts';
+import {
+  CROSSING_STATES,
+  TERRAINS,
+  type HexMap,
+  type HexPos,
+  type HexRecord,
+} from '../../src/core/map/types.ts';
 
 /**
  * PLAN 9 step 7. Works on a finished hexes.json, so the generator and the tests run the

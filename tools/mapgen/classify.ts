@@ -23,7 +23,7 @@ import {
   type Pt,
   type Ring,
 } from './geometry.ts';
-import type { CrossingRecord, HexPos, HexRecord, Terrain } from './map-types.ts';
+import type { CrossingRecord, HexPos, HexRecord, Terrain } from '../../src/core/map/types.ts';
 
 /** PLAN 9 step 6: hex classification. All coordinates here are map km. */
 

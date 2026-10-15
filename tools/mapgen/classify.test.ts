@@ -17,7 +17,7 @@ import {
   type CrossingCandidate,
 } from './classify.ts';
 import type { Pt } from './geometry.ts';
-import type { HexRecord } from './map-types.ts';
+import type { HexRecord } from '../../src/core/map/types.ts';
 import { validateMap } from './validate.ts';
 import { blankHexes, mapOf } from './test-maps.ts';
 

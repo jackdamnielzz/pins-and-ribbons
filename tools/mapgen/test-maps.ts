@@ -1,4 +1,4 @@
-import type { CrossingRecord, HexMap, HexRecord } from './map-types.ts';
+import type { CrossingRecord, HexMap, HexRecord } from '../../src/core/map/types.ts';
 import { findMainRoute } from './validate.ts';
 
 /** Small hand-built maps for the mapgen tests. */

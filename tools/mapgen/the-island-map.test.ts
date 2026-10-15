@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { Ajv2020 } from 'ajv/dist/2020.js';
 import { describe, expect, it } from 'vitest';
-import type { HexMap } from './map-types.ts';
+import type { HexMap } from '../../src/core/map/types.ts';
 import { validateMap } from './validate.ts';
 
 /** Checks the committed output of `npm run mapgen` for The Island (PLAN 9 steps 7 and 8). */

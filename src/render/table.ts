@@ -1,17 +1,9 @@
 import { BlurFilter, Container, Graphics, Sprite, TilingSprite, type Application } from 'pixi.js';
 import { constrain, fitCamera, panBy, zoomAt, type Camera, type Rect } from './camera';
+import type { MapData } from './map/data';
+import { bake, drawSheetContent, sheetGeometry } from './map/sheet';
 import { PALETTE } from './palette';
 import { createPaperTexture, createVignetteTexture, createWoodTexture } from './textures';
-
-/** World units are pixels at zoom 1. The Island map is about 30 × 28 km (PLAN 5). */
-const PX_PER_KM = 64;
-const SHEET_MARGIN = 96;
-export const SHEET: Rect = {
-  x: 0,
-  y: 0,
-  width: 30 * PX_PER_KM + 2 * SHEET_MARGIN,
-  height: 28 * PX_PER_KM + 2 * SHEET_MARGIN,
-};
 
 const FIT_PADDING = 64;
 const WHEEL_ZOOM_SPEED = 0.0015;
@@ -22,11 +14,18 @@ const WHEEL_ZOOM_SPEED = 0.0015;
  */
 export class TableScene {
   private camera: Camera;
+  private readonly sheetRect: Rect;
   private readonly table: TilingSprite;
   private readonly world = new Container();
   private readonly vignette: Sprite;
 
-  constructor(private readonly app: Application) {
+  constructor(
+    private readonly app: Application,
+    data: MapData,
+  ) {
+    const geo = sheetGeometry(data);
+    const SHEET: Rect = { x: 0, y: 0, width: geo.width, height: geo.height };
+    this.sheetRect = SHEET;
     this.table = new TilingSprite({ texture: createWoodTexture() });
     this.vignette = new Sprite(createVignetteTexture());
 
@@ -48,7 +47,9 @@ export class TableScene {
       .rect(SHEET.x + 6, SHEET.y + 6, SHEET.width - 12, SHEET.height - 12)
       .stroke({ color: PALETTE.ink, alpha: 0.05, width: 10 });
 
-    this.world.addChild(shadow, sheet, edge);
+    const map = bake(app.renderer, drawSheetContent(data, geo), geo);
+
+    this.world.addChild(shadow, sheet, map, edge);
     app.stage.addChild(this.table, this.world, this.vignette);
 
     this.camera = fitCamera(SHEET, app.screen.width, app.screen.height, FIT_PADDING);
@@ -58,7 +59,7 @@ export class TableScene {
   }
 
   private setCamera(next: Camera): void {
-    this.camera = constrain(next, SHEET, this.app.screen.width, this.app.screen.height);
+    this.camera = constrain(next, this.sheetRect, this.app.screen.width, this.app.screen.height);
     this.applyCamera();
   }
 
