@@ -1,6 +1,7 @@
 # 0001 — npm scripts call tools through node
 
 Date: 2026-10-15
+Status: Superseded by [0002](0002-npm-scripts-use-bare-commands.md)
 
 ## Context
 

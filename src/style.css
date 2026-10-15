@@ -2,9 +2,7 @@
   --paper: #ece2c6;
   --ink: #2a2219;
   --table: #140d08;
-  /* Google Fonts from PLAN 6.2 are not bundled yet; these fall back to system fonts. */
-  --font-stencil: 'Stardos Stencil', 'Courier New', serif;
-  --font-typewriter: 'Special Elite', 'Courier New', monospace;
+  /* --font-stencil, --font-typewriter, --font-map-label and --font-pencil are set from src/render/fonts.ts. */
 }
 
 html,
