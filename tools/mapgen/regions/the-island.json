@@ -3,8 +3,15 @@
   "name": "The Island",
   "extentNote": "PLAN 5: from Heelsum in the west to Pannerden in the east, and from north of Arnhem to Groesbeek and Overasselt in the south. Widened to take in Ginkel Heath (DZ Y) in the north-west and the ground south of Groesbeek (DZ N).",
   "projection": "EPSG:28992",
-  "originRD": { "x": 176000, "y": 452000 },
-  "grid": { "cols": 25, "rows": 40, "hexAcrossFlatsKm": 1 },
+  "originRD": {
+    "x": 176000,
+    "y": 452000
+  },
+  "grid": {
+    "cols": 25,
+    "rows": 40,
+    "hexAcrossFlatsKm": 1
+  },
   "fetchMarginKm": 1.5,
   "simplifyToleranceM": 25,
   "rasterCellM": 50,
@@ -17,7 +24,12 @@
     "contourSmoothPasses": 2
   },
   "classification": {
-    "minShare": { "river": 0.5, "built-up": 0.3, "woodland": 0.45, "heath": 0.35 },
+    "minShare": {
+      "river": 0.5,
+      "built-up": 0.3,
+      "woodland": 0.45,
+      "heath": 0.35
+    },
     "polderMaxElevationM": 14
   },
   "roadFlagClasses": ["trunk", "primary", "secondary"],
@@ -31,47 +43,192 @@
     "IJssel"
   ],
   "crossingWindowKm": 1,
-  "objectives": [
+  "builtUp": {
+    "note": "1944 built-up area: BAG building footprints (PDOK) with bouwjaar up to maxYear. A hex is built-up when those footprints cover at least minFootprintShare of it, or when at least coreMinShare of it lies inside a settlement-core mask from the overrides file. Decision 0006.",
+    "maxYear": 1944,
+    "minFootprintShare": 0.02,
+    "coreMinShare": 0.5,
+    "tileM": 2500
+  },
+  "heathOverrideMinShare": 0.5,
+  "crossingMatchKm": 1.0,
+  "crossings": [
     {
       "id": "arnhem-road-bridge",
       "name": "Arnhem Road Bridge",
-      "crossing": {
-        "kind": "road",
-        "river": "Nederrijn",
-        "nameIncludes": "John Frost",
-        "near": [5.911, 51.9739]
-      },
-      "source": "docs/history/zones.md (Arnhem Road Bridge). Located as the OSM bridge named John Frostbrug; TODO(history): confirm the post-war bridge stands on the 1944 site."
+      "kind": "road",
+      "river": "Nederrijn",
+      "near": [5.91242, 51.97585],
+      "nameIncludes": "John Frost",
+      "state": "intact",
+      "fate": "Held by Frost's force from 17 Sep evening to 21 Sep morning.",
+      "source": "docs/history/map.md (Arnhem road bridge); location: https://www.liberationroute.com/pois/692"
     },
     {
       "id": "arnhem-rail-bridge",
       "name": "Arnhem Rail Bridge (Oosterbeek)",
-      "crossing": { "kind": "rail", "river": "Nederrijn", "near": [5.842, 51.9884] },
-      "source": "docs/history/zones.md (Arnhem Rail Bridge, Oosterbeek). Located as the rail crossing of the Nederrijn nearest Oosterbeek; TODO(history): confirm the 1944 site."
+      "kind": "rail",
+      "river": "Nederrijn",
+      "near": [5.8559, 51.9724],
+      "nameIncludes": "Oosterbeek",
+      "state": "intact",
+      "fate": "Blown at about 18:00 on 17 Sep.",
+      "source": "docs/history/map.md (Arnhem rail bridge); location: OSM Spoorbrug Oosterbeek"
     },
     {
       "id": "arnhem-pontoon-bridge",
       "name": "Arnhem pontoon bridge",
-      "todo": "TODO(history): docs/history/zones.md has no location for the pontoon bridge, and it is not in OpenStreetMap. Add its position with a source.",
-      "source": "docs/history/zones.md (Arnhem pontoon bridge, PLAN 5.1)"
-    },
-    {
-      "id": "nijmegen-road-bridge",
-      "name": "Nijmegen Road Bridge",
-      "crossing": { "kind": "road", "river": "Waal", "nameIncludes": "Waalbrug", "near": [5.871, 51.8517] },
-      "source": "docs/history/zones.md (Nijmegen Road Bridge, US Army CMH ch. 8). Located as the OSM bridge named Waalbrug; TODO(history): confirm it is the 1944 bridge."
-    },
-    {
-      "id": "nijmegen-rail-bridge",
-      "name": "Nijmegen Rail Bridge",
-      "crossing": { "kind": "rail", "river": "Waal", "near": [5.8638, 51.8475] },
-      "source": "docs/history/zones.md (Nijmegen Rail Bridge). Located as the rail crossing of the Waal nearest Nijmegen; TODO(history): confirm the 1944 site."
+      "kind": "pontoon",
+      "river": "Nederrijn",
+      "near": [5.899402, 51.980641],
+      "manual": true,
+      "state": "damaged",
+      "fate": "Centre section removed by the Germans; not crossable.",
+      "source": "docs/history/map.md (Arnhem pontoon bridge); location: https://www.liberationroute.com/pois/703"
     },
     {
       "id": "heveadorp-ferry",
       "name": "Heveadorp–Driel ferry",
-      "crossing": { "kind": "ferry", "river": "Nederrijn", "near": [5.8244, 51.9726] },
-      "source": "docs/history/zones.md (Liberation Route). Located as the OSM ferry Drielse Veer between Heveadorp and Driel."
+      "kind": "ferry",
+      "river": "Nederrijn",
+      "near": [5.82519, 51.971725],
+      "state": "intact",
+      "fate": "Disabled by the ferryman on 20 Sep.",
+      "source": "docs/history/map.md (Heveadorp ferry); location: https://www.liberationroute.com/pois/657"
+    },
+    {
+      "id": "nijmegen-road-bridge",
+      "name": "Nijmegen Road Bridge",
+      "kind": "road",
+      "river": "Waal",
+      "near": [5.868223, 51.848882],
+      "nameIncludes": "Waalbrug",
+      "state": "intact",
+      "fate": "Prepared for demolition; taken intact on 20 Sep about 19:10.",
+      "source": "docs/history/map.md (Nijmegen bridges); location: https://www.liberationroute.com/pois/463"
+    },
+    {
+      "id": "nijmegen-rail-bridge",
+      "name": "Nijmegen Rail Bridge",
+      "kind": "rail",
+      "river": "Waal",
+      "near": [5.8575, 51.8539],
+      "nameIncludes": "Nijmegen",
+      "state": "intact",
+      "fate": "Captured on 20 Sep, two hours after the Waal crossing.",
+      "source": "docs/history/map.md (Nijmegen bridges); location: OSM Spoorbrug Nijmegen"
+    },
+    {
+      "id": "grave-bridge",
+      "name": "Grave bridge",
+      "kind": "road",
+      "river": "Maas",
+      "near": [5.73109, 51.76874],
+      "nameIncludes": "Thompson",
+      "state": "intact",
+      "fate": "Taken intact by the 504th PIR on 17 Sep.",
+      "source": "docs/history/map.md (Grave bridge); location: https://www.liberationroute.com/pois/554"
+    },
+    {
+      "id": "heumen-bridge",
+      "name": "Heumen lock bridge",
+      "kind": "road",
+      "river": "Maas-Waalkanaal",
+      "near": [5.850428, 51.767615],
+      "state": "intact",
+      "fate": "Prepared for demolition but taken intact on 17 Sep; main XXX Corps route over the canal.",
+      "source": "docs/history/map.md (Maas–Waal canal bridges); location: https://www.liberationroute.com/pois/482"
+    },
+    {
+      "id": "malden-bridge",
+      "name": "Malden bridge",
+      "kind": "road",
+      "river": "Maas-Waalkanaal",
+      "near": [5.8406, 51.7846],
+      "state": "intact",
+      "fate": "Blown on 17 Sep as American paratroopers reached it.",
+      "source": "docs/history/map.md (Maas–Waal canal bridges); location: OSM Maldensebrug on the Blankenbergseweg"
+    },
+    {
+      "id": "hatert-bridge",
+      "name": "Hatert bridge",
+      "kind": "road",
+      "river": "Maas-Waalkanaal",
+      "near": [5.8161, 51.8063],
+      "nameIncludes": "Hatert",
+      "state": "intact",
+      "fate": "Found demolished when attacked on 17 Sep.",
+      "source": "docs/history/map.md (Maas–Waal canal bridges); location: OSM Hatertsebrug (rebuilt in the 1960s on the same road)"
+    },
+    {
+      "id": "honinghutje-bridge",
+      "name": "Honinghutje bridge",
+      "kind": "road",
+      "river": "Maas-Waalkanaal",
+      "near": [5.8082, 51.8261],
+      "nameIncludes": "Graafse",
+      "state": "intact",
+      "fate": "Damaged by German demolitions when attacked; XXX Corps used the Heumen bridge instead.",
+      "source": "docs/history/map.md (Maas–Waal canal bridges); location: OSM Graafsebrug on the Graafseweg, the main Grave–Nijmegen road"
+    },
+    {
+      "id": "mook-rail-bridge",
+      "name": "Mook rail bridge",
+      "kind": "rail",
+      "river": "Maas",
+      "near": [5.8708, 51.7554],
+      "nameIncludes": "Mook",
+      "state": "intact",
+      "fate": "Blown by the Germans on 17 Sep as American patrols approached.",
+      "source": "docs/history/map.md (Mook rail bridge); location: OSM Spoorbrug Mook"
+    },
+    {
+      "id": "pannerden-ferry",
+      "name": "Pannerden ferry",
+      "kind": "ferry",
+      "river": "Pannerdensch Kanaal",
+      "near": [6.0242, 51.8933],
+      "state": "not-in-service",
+      "fate": "Set up by 10th SS engineers on 18 Sep; used to move the division to Nijmegen.",
+      "source": "docs/history/map.md (Pannerden ferry); location: OSM Pannerden–Doornenburg ferry across the Pannerdensch Kanaal"
+    }
+  ],
+  "objectives": [
+    {
+      "id": "arnhem-road-bridge",
+      "name": "Arnhem Road Bridge",
+      "crossing": "arnhem-road-bridge",
+      "source": "docs/history/map.md (Arnhem road bridge)"
+    },
+    {
+      "id": "arnhem-rail-bridge",
+      "name": "Arnhem Rail Bridge (Oosterbeek)",
+      "crossing": "arnhem-rail-bridge",
+      "source": "docs/history/map.md (Arnhem rail bridge)"
+    },
+    {
+      "id": "arnhem-pontoon-bridge",
+      "name": "Arnhem pontoon bridge",
+      "crossing": "arnhem-pontoon-bridge",
+      "source": "docs/history/map.md (Arnhem pontoon bridge)"
+    },
+    {
+      "id": "nijmegen-road-bridge",
+      "name": "Nijmegen Road Bridge",
+      "crossing": "nijmegen-road-bridge",
+      "source": "docs/history/map.md (Nijmegen bridges)"
+    },
+    {
+      "id": "nijmegen-rail-bridge",
+      "name": "Nijmegen Rail Bridge",
+      "crossing": "nijmegen-rail-bridge",
+      "source": "docs/history/map.md (Nijmegen bridges)"
+    },
+    {
+      "id": "heveadorp-ferry",
+      "name": "Heveadorp–Driel ferry",
+      "crossing": "heveadorp-ferry",
+      "source": "docs/history/map.md (Heveadorp ferry)"
     }
   ],
   "zones": [
@@ -80,80 +237,91 @@
       "name": "LZ S",
       "near": [5.7926, 52.005],
       "relation": "north of Wolfheze",
-      "source": "docs/history/zones.md (1st Airlanding Bde report). Anchor is the OSM place node Wolfheze; TODO(history): exact zone hexes."
+      "source": "docs/history/map.md (Landing and drop zones). Anchor: OSM place node Wolfheze; TODO(history): exact zone hexes north of the village."
     },
     {
       "id": "LZ-Z",
       "name": "LZ Z",
       "near": [5.7565, 51.9987],
-      "relation": "Renkum Heath",
-      "source": "docs/history/zones.md (PLAN 5.2, TODO(history) there). Anchor is the OSM place node Renkumse Heide; TODO(history): exact zone hexes."
+      "relation": "Renkum Heath, between Wolfheze and Heelsum",
+      "source": "docs/history/map.md (Landing and drop zones). Anchor: OSM place node Renkumse Heide."
     },
     {
       "id": "DZ-X",
       "name": "DZ X",
-      "near": [5.7565, 51.9987],
+      "near": [5.743567, 51.987189],
       "relation": "Renkum Heath",
-      "source": "docs/history/zones.md (PLAN 5.2, TODO(history) there). Anchor is the OSM place node Renkumse Heide; TODO(history): exact zone hexes."
+      "source": "docs/history/map.md (Landing and drop zones). Anchor: Renkum Heath Memorial on the edge of DZ X, https://www.airborne-herdenkingen.nl/en/?p=18153"
     },
     {
       "id": "LZ-X",
       "name": "LZ X",
-      "near": [5.7565, 51.9987],
+      "near": [5.745893, 51.988455],
       "relation": "next to DZ X",
-      "source": "docs/history/zones.md (1st Airlanding Bde report). Anchor is the OSM place node Renkumse Heide; TODO(history): exact zone hexes."
+      "source": "docs/history/map.md (Landing and drop zones). Anchor: https://www.liberationroute.com/pois/467"
     },
     {
       "id": "DZ-Y",
       "name": "DZ Y",
-      "near": [5.7341, 52.0369],
-      "relation": "Ginkel Heath, west edge",
-      "source": "docs/history/zones.md (PLAN 5.2, TODO(history) there). Anchor is the OSM memorial Airborne Monument Ginkelse Heide; TODO(history): exact zone hexes and the west edge."
+      "near": [5.733726, 52.038923],
+      "relation": "Ginkel Heath",
+      "source": "docs/history/map.md (Landing and drop zones). Anchor: https://www.liberationroute.com/pois/705"
     },
     {
       "id": "LZ-L",
       "name": "LZ L",
       "near": [5.8374, 51.9983],
       "relation": "Johannahoeve, north of Oosterbeek",
-      "source": "docs/history/zones.md (PLAN 5.2, TODO(history) there). Anchor is the OSM road Johannahoeve north of Oosterbeek; TODO(history): exact zone hexes."
+      "source": "docs/history/zones.md (PLAN 5.2). Anchor: OSM road Johannahoeve north of Oosterbeek. TODO(history): a dated source for the zone position."
     },
     {
       "id": "V",
       "name": "Supply dropping point V",
-      "todo": "TODO(history): docs/history/zones.md only says north-west Arnhem. Add a position with a source.",
-      "source": "docs/history/zones.md (PLAN 5.2, TODO(history) there)"
+      "todo": "TODO(history): no source found that places supply dropping point V; sources only say it was in German hands from 19 Sep (Battle of Arnhem, Wikipedia).",
+      "source": "docs/history/map.md (Supply dropping point V)"
     },
     {
       "id": "DZ-K",
       "name": "DZ K",
-      "atObjective": { "id": "arnhem-road-bridge", "bank": "south" },
+      "atObjective": {
+        "id": "arnhem-road-bridge",
+        "bank": "south"
+      },
       "relation": "south end of the Arnhem road bridge",
-      "source": "docs/history/zones.md (PLAN 5.2, TODO(history) there). Anchor is the south bank hex of the Arnhem road bridge."
+      "source": "docs/history/zones.md (PLAN 5.2). Anchor: the south bank hex of the Arnhem road bridge."
     },
     {
       "id": "DZ-O",
       "name": "DZ O",
-      "near": [5.7891, 51.761],
-      "relation": "Overasselt",
-      "source": "docs/history/zones.md (PLAN 5.2, TODO(history) there). Anchor is the OSM place node Overasselt; TODO(history): exact zone hexes."
+      "near": [5.77029, 51.76851],
+      "relation": "meadows north of Overasselt",
+      "source": "docs/history/map.md (Landing and drop zones). Anchor: https://www.liberationroute.com/pois/450"
     },
     {
       "id": "DZ-N",
       "name": "DZ N",
-      "near": [5.9305, 51.7741],
+      "near": [5.920805, 51.758296],
       "relation": "south of Groesbeek",
-      "source": "docs/history/zones.md (PLAN 5.2, TODO(history) there). Anchor is the OSM place node Groesbeek; TODO(history): exact zone hexes."
+      "source": "docs/history/map.md (Landing and drop zones). Anchor: https://www.liberationroute.com/pois/457"
     },
     {
       "id": "DZ-T",
       "name": "DZ T",
-      "near": [5.9305, 51.7741],
-      "relation": "north of Groesbeek",
-      "source": "docs/history/zones.md (PLAN 5.2, TODO(history) there). Anchor is the OSM place node Groesbeek; TODO(history): exact zone hexes."
+      "near": [5.958, 51.799],
+      "relation": "both sides of the Groesbeek–Wyler road, south of Wyler",
+      "source": "docs/history/map.md (Landing and drop zones). Anchor: a point on the Wylerbaan (Groesbeek–Wyler road) about 1 km south-west of Wyler."
+    }
+  ],
+  "waypoints": [
+    {
+      "id": "elst",
+      "name": "Elst",
+      "near": [5.8452555, 51.9187914],
+      "source": "docs/history/map.md (Club Route). Anchor: OSM place node Elst."
     }
   ],
   "mainRoute": {
-    "note": "PLAN 9 step 7: the main road is continuous from the south edge to Arnhem. Checked as a road path from the south edge over the Nijmegen road bridge to the Arnhem road bridge. TODO(history): the exact 1944 Club Route alignment is not in docs/history.",
-    "via": ["nijmegen-road-bridge", "arnhem-road-bridge"]
+    "note": "The Club Route as far as the sources give it: from the south edge over the Grave bridge, the Heumen lock bridge and the Nijmegen road bridge, through Elst to the Arnhem road bridge. docs/history/map.md (Club Route).",
+    "via": ["grave-bridge", "heumen-bridge", "nijmegen-road-bridge", "elst", "arnhem-road-bridge"]
   }
 }

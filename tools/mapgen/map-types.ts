@@ -34,22 +34,30 @@ export interface HexRecord {
   town?: string;
 }
 
+export const CROSSING_STATES = ['intact', 'damaged', 'blown', 'not-in-service'] as const;
+export type CrossingState = (typeof CROSSING_STATES)[number];
+
 export interface CrossingRecord {
   id: string;
-  kind: 'road' | 'rail' | 'ferry';
+  kind: 'road' | 'rail' | 'ferry' | 'pontoon';
   name: string;
   river: string;
-  osmId: string;
+  /** The OSM way the crossing was found on; absent for crossings placed from a source only. */
+  osmId?: string;
   /** Where the line crosses the river, map km. */
   at: [x: number, y: number];
   /** The two hexes on either bank, ordered north/west bank first. */
   banks: [HexPos, HexPos];
+  /** State at the start of the scenario; only intact crossings can be used. */
+  state: CrossingState;
+  fate?: string;
+  source: string;
 }
 
 export interface AnchorRecord {
   id: string;
   name: string;
-  kind: 'objective' | 'zone';
+  kind: 'objective' | 'zone' | 'waypoint';
   /** Resolved hex, absent for anchors whose location is still TODO(history). */
   hex?: HexPos;
   crossing?: string;
@@ -75,5 +83,6 @@ export interface HexMap {
   hexes: HexRecord[];
   crossings: CrossingRecord[];
   anchors: AnchorRecord[];
-  mainRoute: { via: string[]; note: string };
+  /** The main road (Club Route): crossings and waypoints in order, and the hexes it follows. */
+  mainRoute: { via: string[]; note: string; hexes: HexPos[] };
 }

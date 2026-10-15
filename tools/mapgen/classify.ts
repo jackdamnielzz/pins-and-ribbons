@@ -134,14 +134,39 @@ export interface ClassifyOptions {
   polderMaxElevationM: number;
 }
 
+/** 1944 evidence for one hex that today's land cover cannot give. */
+export interface HistoricCover {
+  /** Share of the hex covered by building footprints from 1944 or earlier (BAG). */
+  footprintShare: number;
+  minFootprintShare: number;
+  /** Share of the hex inside a sourced settlement-core mask. */
+  coreShare: number;
+  coreMinShare: number;
+  /** Share of the hex inside sourced 1944 heath polygons. */
+  heathShare: number;
+  heathMinShare: number;
+}
+
 /**
- * Terrain for one hex from its cover shares: the first class in priority order whose share
- * reaches its minimum wins; otherwise the largest class does; land with no cover class is
- * polder when low-lying and open fields otherwise.
+ * Terrain for one hex. Priority river > built-up > woodland > heath (PLAN 9): river from
+ * today's water areas; built-up from 1944 building footprints or a settlement-core mask; then
+ * sourced 1944 heath; then woodland and heath from today's land cover, where the first class
+ * whose share reaches its minimum wins, otherwise the largest class does. Land with no cover
+ * class is polder when low-lying and open fields otherwise.
  */
-export function terrainFor(shares: Float64Array, elevationM: number, options: ClassifyOptions): Terrain {
+export function terrainFor(
+  shares: Float64Array,
+  elevationM: number,
+  options: ClassifyOptions,
+  history: HistoricCover,
+): Terrain {
   const share = (c: CoverClass): number => shares[COVER_CLASSES.indexOf(c)] as number;
-  const order = ['river', 'built-up', 'woodland', 'heath'] as const;
+  if (share('river') >= options.minShare.river) return 'river';
+  if (history.footprintShare >= history.minFootprintShare || history.coreShare >= history.coreMinShare) {
+    return 'built-up';
+  }
+  if (history.heathShare >= history.heathMinShare) return 'heath';
+  const order = ['woodland', 'heath'] as const;
   for (const c of order) if (share(c) >= options.minShare[c]) return c;
   const best = order.reduce((a, b) => (share(b) > share(a) ? b : a));
   if (share(best) > share('none')) return best;
@@ -227,18 +252,28 @@ export function edgeKey(a: Offset, b: Offset): string {
 export interface CrossingLine {
   kind: CrossingRecord['kind'];
   name: string;
-  osmId: string;
+  osmId?: string;
   line: Pt[];
 }
 
-interface CrossingCandidate {
+/** The sourced crossing a candidate belongs to; several candidates can share one. */
+export interface CrossingMeta {
+  id: string;
+  name: string;
+  state: CrossingRecord['state'];
+  fate?: string;
+  source: string;
+}
+
+export interface CrossingCandidate {
   kind: CrossingRecord['kind'];
   name: string;
-  osmId: string;
+  osmId?: string;
   river: string;
   at: Pt;
   /** Unit direction of the bridge axis at the crossing point. */
   axis: Pt;
+  meta?: CrossingMeta;
 }
 
 /** Every point where a road, rail or ferry line crosses a barrier river, with the bridge axis there. */
@@ -259,7 +294,7 @@ export function findCrossingPoints(lines: CrossingLine[], rivers: IndexedLine[])
           out.push({
             kind: l.kind,
             name: l.name,
-            osmId: l.osmId,
+            ...(l.osmId ? { osmId: l.osmId } : {}),
             river: r.name,
             at: p,
             axis: { x: ux, y: uy },
@@ -269,6 +304,58 @@ export function findCrossingPoints(lines: CrossingLine[], rivers: IndexedLine[])
     }
   }
   return out;
+}
+
+/** Unit direction of the named river's line nearest to a point. */
+export function riverDirectionAt(at: Pt, river: string, rivers: IndexedLine[]): Pt | undefined {
+  let best: { d: number; dir: Pt } | undefined;
+  for (const r of rivers.filter((x) => x.name === river)) {
+    for (let i = 1; i < r.line.length; i++) {
+      const a = r.line[i - 1] as Pt;
+      const b = r.line[i] as Pt;
+      const len = Math.hypot(b.x - a.x, b.y - a.y);
+      if (len === 0) continue;
+      const t = Math.max(
+        0,
+        Math.min(1, ((at.x - a.x) * (b.x - a.x) + (at.y - a.y) * (b.y - a.y)) / len ** 2),
+      );
+      const d = Math.hypot(a.x + t * (b.x - a.x) - at.x, a.y + t * (b.y - a.y) - at.y);
+      if (!best || d < best.d) best = { d, dir: { x: (b.x - a.x) / len, y: (b.y - a.y) / len } };
+    }
+  }
+  return best?.dir;
+}
+
+/**
+ * A crossing that is not in OpenStreetMap, placed from a sourced point: its axis runs across
+ * the nearest stretch of the named river.
+ */
+export function manualCandidate(
+  at: Pt,
+  river: string,
+  rivers: IndexedLine[],
+  kind: CrossingRecord['kind'],
+  meta: CrossingMeta,
+): CrossingCandidate | undefined {
+  const dir = riverDirectionAt(at, river, rivers);
+  if (!dir) return undefined;
+  return { kind, name: meta.name, river, at, axis: { x: -dir.y, y: dir.x }, meta };
+}
+
+/**
+ * Orders two bank hexes north bank first, or west bank first where the river runs north–south:
+ * the first is on the left of the river's local direction, taken eastwards (or northwards).
+ */
+export function orderBanks(grid: HexGrid, banks: [HexPos, HexPos], at: Pt, riverDir: Pt): [HexPos, HexPos] {
+  const east = Math.abs(riverDir.x) >= Math.abs(riverDir.y);
+  const flip = east ? riverDir.x < 0 : riverDir.y > 0;
+  const d = flip ? { x: -riverDir.x, y: -riverDir.y } : riverDir;
+  // Map y grows southwards, so the left of an eastward direction is north.
+  const side = (h: HexPos): number => {
+    const c = centreOf(grid, offset(h[0], h[1]));
+    return d.x * (c.y - at.y) - d.y * (c.x - at.x);
+  };
+  return side(banks[0]) <= side(banks[1]) ? banks : [banks[1], banks[0]];
 }
 
 /**
@@ -281,12 +368,11 @@ export function placeCrossings(
   grid: HexGrid,
   hexes: HexRecord[],
   edgeRivers: Map<string, string[]>,
+  rivers: IndexedLine[],
   candidates: CrossingCandidate[],
   windowKm: number,
-  makeId: (c: { kind: string; name: string; river: string }) => string,
 ): CrossingRecord[] {
   const records: CrossingRecord[] = [];
-  const claimed = new Map<string, string[]>();
   const isWater = (o: Offset): boolean => {
     const t = (hexes[indexOf(grid, o)] as HexRecord).terrain;
     return t === 'river' || t === 'bridge';
@@ -316,39 +402,37 @@ export function placeCrossings(
     }
     if (!banks) continue;
     // Several crossing points (both carriageways, both tracks, both river lines) belong to one
-    // crossing: merge with an existing crossing of the same kind and name on the same edges.
-    const keys = [...edges.map(([a, b]) => edgeKey(a, b)), ...water.map(offsetKey)];
-    let record = records.find(
-      (r) => r.kind === c.kind && r.name === c.name && keys.some((k) => claimed.get(k)?.includes(r.id)),
-    );
+    // sourced crossing; candidates without one have no 1944 source and are skipped.
+    const meta = c.meta;
+    if (!meta) continue;
+    let record = records.find((r) => r.id === meta.id);
     if (!record) {
+      const dir = riverDirectionAt(c.at, c.river, rivers);
+      if (dir) banks = orderBanks(grid, banks, c.at, dir);
       record = {
-        id: makeId(c),
+        id: meta.id,
         kind: c.kind,
-        name: c.name,
+        name: meta.name,
         river: c.river,
-        osmId: c.osmId,
+        ...(c.osmId ? { osmId: c.osmId } : {}),
         at: [round3(c.at.x), round3(c.at.y)],
         banks,
+        state: meta.state,
+        ...(meta.fate ? { fate: meta.fate } : {}),
+        source: meta.source,
       };
       records.push(record);
     }
     const id = record.id;
-    const claim = (k: string): void => {
-      const list = claimed.get(k) ?? [];
-      if (!list.includes(id)) claimed.set(k, [...list, id]);
-    };
     for (const [a, b] of edges) {
       const d = directionTo(offsetToAxial(a), offsetToAxial(b)) as Direction;
       addEdgeCrossing(hexes[indexOf(grid, a)] as HexRecord, d, id);
       addEdgeCrossing(hexes[indexOf(grid, b)] as HexRecord, oppositeDirection(d), id);
-      claim(edgeKey(a, b));
     }
     for (const w of water) {
       const h = hexes[indexOf(grid, w)] as HexRecord;
       h.crossings = [...new Set([...(h.crossings ?? []), id])].sort();
-      if (c.kind !== 'ferry') h.terrain = 'bridge';
-      claim(offsetKey(w));
+      if (c.kind === 'road' || c.kind === 'rail') h.terrain = 'bridge';
     }
   }
   return records;
@@ -361,8 +445,8 @@ function addEdgeCrossing(h: HexRecord, dir: number, crossing: string): void {
 }
 
 /**
- * The land hexes on either side of the river along a crossing walk, north bank first: the last
- * land hex before the first river step and the first land hex after the last one.
+ * The land hexes on either side of the river along a crossing walk: the last land hex before
+ * the first river step and the first land hex after the last one, in walk order.
  */
 function bankHexes(
   walk: Offset[],
@@ -383,9 +467,10 @@ function bankHexes(
     .at(-1);
   const b = walk.slice(last).find((h) => !isWater(h));
   if (!a || !b) return undefined;
-  const pa: HexPos = [a.col, a.row];
-  const pb: HexPos = [b.col, b.row];
-  return a.row < b.row || (a.row === b.row && a.col < b.col) ? [pa, pb] : [pb, pa];
+  return [
+    [a.col, a.row],
+    [b.col, b.row],
+  ];
 }
 
 export function round3(n: number): number {

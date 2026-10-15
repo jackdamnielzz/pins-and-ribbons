@@ -8,8 +8,8 @@ import {
   type Direction,
 } from '../../src/core/hex/index.ts';
 import type { CrossingRecord, HexRecord } from './map-types.ts';
-import { blankHexes, mapOf } from './test-maps.ts';
-import { validateMap } from './validate.ts';
+import { blankHexes, crossingOf, mapOf } from './test-maps.ts';
+import { findMainRoute, validateMap } from './validate.ts';
 
 const COLS = 5;
 const ROWS = 6;
@@ -39,18 +39,14 @@ function bridgedRoad(hexes: HexRecord[]): CrossingRecord {
   // Row 2 (even) col 2 → south-west (4) is (1, 3), which is on the road.
   at(hexes, 2, 2).edgeCrossings.push({ dir: 4, crossing: 'bridge' });
   at(hexes, 1, 3).edgeCrossings.push({ dir: 1, crossing: 'bridge' });
-  return {
+  return crossingOf({
     id: 'bridge',
-    kind: 'road',
     name: 'Bridge',
-    river: 'R',
-    osmId: 'way/1',
-    at: [2, 2],
     banks: [
       [2, 2],
       [1, 3],
     ],
-  };
+  });
 }
 
 describe('validateMap', () => {
@@ -77,18 +73,13 @@ describe('validateMap', () => {
     riverEdge(hexes, 2, 2, 4);
     at(hexes, 2, 2).edgeCrossings.push({ dir: 4, crossing: 'b' });
     at(hexes, 1, 3).edgeCrossings.push({ dir: 1, crossing: 'b' });
-    const crossing: CrossingRecord = {
+    const crossing = crossingOf({
       id: 'b',
-      kind: 'road',
-      name: '',
-      river: 'R',
-      osmId: 'way/1',
-      at: [0, 0],
       banks: [
         [2, 2],
         [1, 3],
       ],
-    };
+    });
     const errors = validateMap(mapOf(COLS, ROWS, hexes, [crossing])).errors;
     expect(errors.some((e) => e.includes('crossing b: banks'))).toBe(true);
   });
@@ -116,7 +107,59 @@ describe('validateMap', () => {
     const hexes = blankHexes(COLS, ROWS);
     at(hexes, 0, ROWS - 1).road = true;
     const errors = validateMap(mapOf(COLS, ROWS, hexes, [], ['missing'])).errors;
-    expect(errors).toContain('main road: waypoint(s) missing are not crossings on the map');
+    expect(errors).toContain('main road: waypoint(s) missing are not on the map');
+  });
+
+  it('stores the main road and passes it through waypoint hexes in order', () => {
+    const hexes = blankHexes(COLS, ROWS);
+    riverAcross(hexes);
+    const bridge = bridgedRoad(hexes);
+    const anchors = [
+      { id: 'top', name: 'Top', kind: 'waypoint' as const, source: 's', hex: [2, 0] as [number, number] },
+    ];
+    const map = mapOf(COLS, ROWS, hexes, [bridge], ['bridge', 'top']);
+    map.anchors = anchors;
+    map.mainRoute.hexes = findMainRoute(map).path.map((o) => [o.col, o.row]);
+    expect(validateMap(map).errors).toEqual([]);
+    expect(map.mainRoute.hexes[0]).toEqual([1, 5]);
+    expect(map.mainRoute.hexes.at(-1)).toEqual([2, 0]);
+    map.mainRoute.hexes = map.mainRoute.hexes.slice(1);
+    expect(validateMap(map).errors).toContain(
+      'main road: mainRoute.hexes does not match the road found over the waypoints',
+    );
+  });
+
+  it('does not route the main road over a crossing that is not intact', () => {
+    const hexes = blankHexes(COLS, ROWS);
+    riverAcross(hexes);
+    const bridge = { ...bridgedRoad(hexes), state: 'blown' as const };
+    const errors = validateMap(mapOf(COLS, ROWS, hexes, [bridge], ['bridge'])).errors;
+    expect(errors).toContain('main road: no road path from the south edge to bridge');
+  });
+
+  it('rejects crossings with an unknown state or no source', () => {
+    const hexes = blankHexes(COLS, ROWS);
+    const bad = crossingOf({
+      id: 'x',
+      banks: [
+        [0, 0],
+        [1, 0],
+      ],
+      source: ' ',
+    });
+    const odd = {
+      ...crossingOf({
+        id: 'y',
+        banks: [
+          [0, 0],
+          [1, 0],
+        ],
+      }),
+      state: 'sunk',
+    } as unknown as CrossingRecord;
+    const errors = validateMap(mapOf(COLS, ROWS, hexes, [bad, odd])).errors;
+    expect(errors).toContain('crossing x has no source');
+    expect(errors).toContain('crossing y has unknown state sunk');
   });
 
   it('reports anchors without a hex and warns about TODO(history) anchors', () => {

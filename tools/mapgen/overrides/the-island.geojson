@@ -11,7 +11,7 @@
         "match": {
           "ref": "A12"
         },
-        "source": "PLAN 9 step 4 names this as post-war (motorway A12). TODO(history): add a source for its construction date to docs/history."
+        "source": "docs/history/map.md (Removed post-war features): A12 near Arnhem opened 1957 and 1961."
       }
     },
     {
@@ -24,7 +24,7 @@
         "match": {
           "ref": "A50"
         },
-        "source": "PLAN 9 step 4 names this as post-war (motorway A50). TODO(history): add a source for its construction date to docs/history."
+        "source": "docs/history/map.md (Removed post-war features): first A50 section opened 1957."
       }
     },
     {
@@ -38,7 +38,7 @@
           "ref": "A325"
         },
         "note": "Only ref A325. The N325 stays: it carries the Waalbrug (Nijmegen Road Bridge).",
-        "source": "PLAN 9 step 4 names this as post-war (motorway A325). TODO(history): add a source for its construction date to docs/history."
+        "source": "PLAN 9 step 4 names the A325 as post-war; docs/history/map.md (Removed post-war features) records that work on its predecessor Rijksweg 52 began during the war. TODO(history): whether any of it was usable in September 1944."
       }
     },
     {
@@ -51,7 +51,7 @@
         "match": {
           "ref": "A15"
         },
-        "source": "TODO(history): motorway assumed post-war; not named in PLAN 9 or docs/history."
+        "source": "docs/history/map.md (Removed post-war features): the A15 meets the A325 at knooppunt Ressen, opened 1980. TODO(history): opening year of the A15 west of Ressen."
       }
     },
     {
@@ -64,7 +64,7 @@
         "match": {
           "ref": "A73"
         },
-        "source": "TODO(history): motorway assumed post-war; not named in PLAN 9 or docs/history."
+        "source": "docs/history/map.md (Removed post-war features): main A73 sections from 1986. TODO(history): opening year of the short section west of Nijmegen."
       }
     },
     {
@@ -77,7 +77,7 @@
         "match": {
           "ref": "A326"
         },
-        "source": "TODO(history): motorway assumed post-war; not named in PLAN 9 or docs/history."
+        "source": "docs/history/map.md (Removed post-war features): opened 12 June 1975."
       }
     },
     {
@@ -90,7 +90,7 @@
         "match": {
           "ref": "A348"
         },
-        "source": "TODO(history): motorway assumed post-war; not named in PLAN 9 or docs/history."
+        "source": "TODO(history): no source found for the opening year of the A348 (former Rijksweg 48) between Arnhem and Dieren."
       }
     },
     {
@@ -103,7 +103,7 @@
         "match": {
           "bridge:name": "De Oversteek"
         },
-        "source": "PLAN 9 step 4 names this as post-war (modern Waal bridges). TODO(history): add a source for its construction date to docs/history."
+        "source": "docs/history/map.md (Removed post-war features): opened November 2013."
       }
     },
     {
@@ -116,7 +116,7 @@
         "match": {
           "name": "Nelson Mandelabrug"
         },
-        "source": "TODO(history): second Arnhem Rhine road bridge, assumed post-war; not named in PLAN 9 or docs/history."
+        "source": "docs/history/map.md (Removed post-war features): opened 18 December 1977 as the Roermondspleinbrug."
       }
     },
     {
@@ -129,7 +129,7 @@
         "match": {
           "bridge:name": "Andrej Sacharovbrug"
         },
-        "source": "TODO(history): Arnhem Rhine road bridge (Pleijroute), assumed post-war; not named in PLAN 9 or docs/history."
+        "source": "docs/history/map.md (Removed post-war features): opened 3 November 1987."
       }
     },
     {
@@ -142,7 +142,7 @@
         "match": {
           "name": "Betuweroute"
         },
-        "source": "TODO(history): freight railway across the Island, assumed post-war; PLAN 9 names the Pannerdens Kanaal bridges as post-war but not the line itself."
+        "source": "docs/history/map.md (Removed post-war features): opened 16 June 2007."
       }
     },
     {
@@ -155,7 +155,7 @@
         "match": {
           "name": "Spiegelwaal"
         },
-        "source": "TODO(history): side channel of the Waal at Lent, assumed post-war; not named in PLAN 9 or docs/history."
+        "source": "docs/history/map.md (Removed post-war features): dug 2013–2015, opened 3 December 2015."
       }
     },
     {
@@ -168,7 +168,7 @@
         "match": {
           "name": "Drielse Veer"
         },
-        "source": "docs/history/zones.md: Heveadorp–Driel ferry (Liberation Route). Located as the OSM ferry Drielse Veer between Heveadorp and Driel."
+        "source": "docs/history/map.md (Heveadorp ferry)."
       }
     },
     {
@@ -181,16 +181,319 @@
         "match": {
           "name": "Pannerden-Doornenburg"
         },
-        "source": "docs/history/german-forces.md: 10th SS crossed by the Pannerden ferry (PLAN 14.2, confirmed). TODO(history): confirm that the 1944 ferry ran on the line of today's Pannerden–Doornenburg ferry."
+        "source": "docs/history/map.md (Pannerden ferry)."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [5.896701, 51.985467],
+            [5.896963, 51.985435],
+            [5.896939, 51.985728],
+            [5.899037, 51.985612],
+            [5.903485, 51.985061],
+            [5.903465, 51.984753],
+            [5.905788, 51.984917],
+            [5.91071, 51.985551],
+            [5.911765, 51.984259],
+            [5.912782, 51.983972],
+            [5.913736, 51.983495],
+            [5.914466, 51.982837],
+            [5.915495, 51.981012],
+            [5.915628, 51.980075],
+            [5.915235, 51.979045],
+            [5.915499, 51.978345],
+            [5.915098, 51.978024],
+            [5.914618, 51.977928],
+            [5.911791, 51.974962],
+            [5.906031, 51.97673],
+            [5.903301, 51.977769],
+            [5.897365, 51.981158],
+            [5.894923, 51.982176],
+            [5.892313, 51.98284],
+            [5.89046, 51.983074],
+            [5.888349, 51.983139],
+            [5.885936, 51.982916],
+            [5.885485, 51.984001],
+            [5.882933, 51.983771],
+            [5.889448, 51.98516],
+            [5.89083, 51.985602],
+            [5.891767, 51.985677],
+            [5.892675, 51.985413],
+            [5.892592, 51.985984],
+            [5.896701, 51.985467]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "core-arnhem",
+        "action": "cover",
+        "cover": "built-up",
+        "note": "Outline: CBS Wijk- en Buurtkaart 2023, district WK020201 (Centrum), via PDOK, simplified to 10 m.",
+        "source": "docs/history/map.md (Settlement cores): Arnhem's centre was badly damaged in 1944 and rebuilt after 1945, so BAG under-counts it."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [5.85629, 51.848572],
+            [5.857263, 51.848417],
+            [5.85753, 51.848538],
+            [5.857828, 51.848469],
+            [5.857734, 51.848328],
+            [5.858125, 51.84845],
+            [5.85885, 51.848298],
+            [5.858925, 51.848415],
+            [5.859051, 51.848157],
+            [5.859282, 51.848294],
+            [5.859522, 51.848084],
+            [5.860003, 51.848125],
+            [5.860101, 51.848299],
+            [5.860347, 51.847938],
+            [5.860848, 51.848134],
+            [5.861156, 51.847741],
+            [5.862722, 51.847543],
+            [5.863241, 51.847596],
+            [5.863433, 51.847882],
+            [5.863695, 51.847933],
+            [5.864293, 51.847749],
+            [5.86419, 51.847609],
+            [5.864531, 51.84766],
+            [5.865042, 51.847351],
+            [5.865731, 51.847331],
+            [5.867337, 51.846801],
+            [5.867725, 51.846729],
+            [5.867778, 51.846965],
+            [5.868059, 51.846899],
+            [5.868223, 51.846609],
+            [5.868781, 51.846818],
+            [5.870344, 51.846975],
+            [5.871211, 51.84722],
+            [5.87176, 51.847649],
+            [5.871922, 51.848403],
+            [5.872847, 51.848671],
+            [5.873875, 51.846809],
+            [5.87471, 51.846133],
+            [5.874696, 51.845495],
+            [5.874291, 51.845015],
+            [5.872634, 51.844444],
+            [5.872756, 51.844122],
+            [5.871834, 51.843551],
+            [5.871268, 51.843582],
+            [5.871162, 51.843331],
+            [5.870339, 51.843508],
+            [5.869869, 51.843343],
+            [5.870561, 51.843194],
+            [5.870412, 51.842426],
+            [5.869668, 51.84239],
+            [5.869362, 51.84184],
+            [5.869148, 51.8418],
+            [5.868855, 51.84205],
+            [5.868474, 51.841947],
+            [5.868666, 51.841634],
+            [5.867695, 51.841458],
+            [5.86796, 51.8411],
+            [5.865979, 51.840648],
+            [5.865606, 51.841257],
+            [5.8653, 51.841182],
+            [5.865427, 51.84098],
+            [5.865146, 51.840916],
+            [5.865228, 51.840794],
+            [5.864467, 51.840607],
+            [5.86443, 51.841018],
+            [5.86322, 51.840953],
+            [5.862428, 51.84058],
+            [5.862196, 51.840679],
+            [5.861952, 51.840444],
+            [5.861497, 51.840616],
+            [5.862173, 51.841055],
+            [5.861123, 51.841612],
+            [5.860464, 51.841125],
+            [5.860167, 51.841605],
+            [5.859632, 51.841431],
+            [5.859796, 51.841314],
+            [5.859379, 51.840947],
+            [5.859578, 51.840668],
+            [5.859073, 51.840602],
+            [5.858538, 51.840687],
+            [5.858639, 51.840856],
+            [5.858351, 51.840909],
+            [5.858605, 51.841041],
+            [5.858667, 51.841561],
+            [5.858351, 51.841819],
+            [5.857601, 51.841396],
+            [5.85715, 51.841577],
+            [5.857304, 51.841969],
+            [5.854645, 51.842217],
+            [5.854349, 51.84193],
+            [5.853746, 51.842149],
+            [5.853309, 51.841835],
+            [5.853114, 51.841874],
+            [5.852365, 51.840381],
+            [5.851194, 51.838975],
+            [5.851139, 51.84104],
+            [5.854966, 51.848771],
+            [5.85629, 51.848572]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "core-nijmegen-stadscentrum",
+        "action": "cover",
+        "cover": "built-up",
+        "note": "Outline: CBS Wijk- en Buurtkaart 2023, neighbourhood BU02680101 (Stadscentrum), via PDOK, simplified to 10 m.",
+        "source": "docs/history/map.md (Settlement cores): the Bovenstad was largely destroyed in the bombing of 22 February 1944."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [5.856908, 51.852095],
+            [5.859045, 51.851722],
+            [5.864239, 51.851313],
+            [5.870286, 51.851384],
+            [5.871353, 51.851573],
+            [5.872847, 51.848671],
+            [5.871922, 51.848403],
+            [5.87176, 51.847649],
+            [5.871211, 51.84722],
+            [5.870344, 51.846975],
+            [5.868781, 51.846818],
+            [5.868223, 51.846609],
+            [5.868059, 51.846899],
+            [5.867778, 51.846965],
+            [5.867725, 51.846729],
+            [5.867337, 51.846801],
+            [5.865731, 51.847331],
+            [5.865042, 51.847351],
+            [5.864531, 51.84766],
+            [5.86419, 51.847609],
+            [5.864293, 51.847749],
+            [5.863695, 51.847933],
+            [5.863433, 51.847882],
+            [5.863241, 51.847596],
+            [5.862722, 51.847543],
+            [5.861156, 51.847741],
+            [5.860848, 51.848134],
+            [5.860347, 51.847938],
+            [5.860101, 51.848299],
+            [5.860003, 51.848125],
+            [5.859522, 51.848084],
+            [5.859282, 51.848294],
+            [5.859051, 51.848157],
+            [5.858925, 51.848415],
+            [5.85885, 51.848298],
+            [5.858125, 51.84845],
+            [5.857734, 51.848328],
+            [5.857828, 51.848469],
+            [5.85753, 51.848538],
+            [5.857263, 51.848417],
+            [5.854966, 51.848771],
+            [5.856732, 51.852126],
+            [5.856908, 51.852095]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "core-nijmegen-benedenstad",
+        "action": "cover",
+        "cover": "built-up",
+        "note": "Outline: CBS Wijk- en Buurtkaart 2023, neighbourhood BU02680100 (Benedenstad), via PDOK, simplified to 10 m.",
+        "source": "docs/history/map.md (Settlement cores): the Benedenstad was part of the 1944 inner city."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [5.734812, 51.987189],
+            [5.735479, 51.985124],
+            [5.737377, 51.983374],
+            [5.740217, 51.982204],
+            [5.743567, 51.981793],
+            [5.746917, 51.982204],
+            [5.749757, 51.983374],
+            [5.752083, 51.98464],
+            [5.753981, 51.98639],
+            [5.764588, 51.996635],
+            [5.765255, 51.9987],
+            [5.764588, 52.000765],
+            [5.76269, 52.002515],
+            [5.75985, 52.003685],
+            [5.7565, 52.004096],
+            [5.75315, 52.003685],
+            [5.75031, 52.002515],
+            [5.737377, 51.991004],
+            [5.735479, 51.989254],
+            [5.734812, 51.987189]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "heath-renkum",
+        "action": "cover",
+        "cover": "heath",
+        "note": "Convex hull of the sourced points (Renkum Heath Memorial, Liberation Route marker 467, OSM Renkumse Heide), widened by 600 m. The width is a design choice; HGN 1900/1960 could not be used (decision 0006).",
+        "source": "docs/history/map.md (Heath): Renkum Heath, landing area of DZ X, LZ X and LZ Z."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [5.724971, 52.038923],
+            [5.725345, 52.0369],
+            [5.726012, 52.034835],
+            [5.729135, 52.028954],
+            [5.731033, 52.027204],
+            [5.733873, 52.026034],
+            [5.737223, 52.025623],
+            [5.740573, 52.026034],
+            [5.743413, 52.027204],
+            [5.745311, 52.028954],
+            [5.745978, 52.031019],
+            [5.745311, 52.033084],
+            [5.743445, 52.03852],
+            [5.741814, 52.040988],
+            [5.739916, 52.042738],
+            [5.737076, 52.043908],
+            [5.733726, 52.044319],
+            [5.730376, 52.043908],
+            [5.727536, 52.042738],
+            [5.725638, 52.040988],
+            [5.724971, 52.038923]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "heath-ginkel",
+        "action": "cover",
+        "cover": "heath",
+        "note": "Convex hull of the sourced points (Liberation Route markers 501, 705 and 706, Airborne Monument), widened by 600 m. The width is a design choice; HGN 1900/1960 could not be used (decision 0006).",
+        "source": "docs/history/map.md (Heath): Ginkel Heath, DZ Y."
       }
     }
   ],
   "todo": [
-    "TODO(history): 1944 town extents. Built-up hexes come from today's residential areas, so post-war districts (for example south of the Rhine at Arnhem and north of the Waal at Nijmegen) count as built-up. Needs a 1944 map source (PLAN 9 step 4) before they can be cut back.",
-    "TODO(history): post-war suburbs (PLAN 9 step 4) need polygons from a dated 1944 map; none are in docs/history.",
-    "TODO(history): Arnhem pontoon bridge. No location in docs/history and not in OpenStreetMap; it is not crossable, so it is not added as a crossing.",
-    "TODO(history): Nijmegen rail bridge layout (PLAN 9 step 4). docs/history has no description of the 1944 layout; the OSM rail bridge is used as is.",
-    "TODO(history): Pannerdens Kanaal bridges (PLAN 9 step 4). The ones in OpenStreetMap carry the A15 and the Betuweroute and are removed with them; check none remain.",
-    "TODO(history): bridges kept from OpenStreetMap without a 1944 source: Maas–Waal canal bridges, Maas bridges, IJssel bridges at Westervoort and the Mook rail bridge. Check each against a 1944 source."
+    "TODO(history): HGN 1900 and 1960 (WUR) are CC-BY but only handed out through a request form; with them, heath and woodland could come from 1944-era land use instead of today's OpenStreetMap plus the two sourced heath polygons (decision 0006).",
+    "TODO(history): 1944 built-up area on the German side of the border (Wyler, Kranenburg, Zyfflich). BAG covers the Netherlands only, so these villages are not built-up on the map.",
+    "TODO(history): supply dropping point V. No source found that places it.",
+    "TODO(history): Westervoort IJssel bridges. No source found for their state in September 1944, so they are not on the map; the IJssel has no crossing.",
+    "TODO(history): A325 / Rijksweg 52 between Nijmegen and Arnhem. Work began during the war; whether any of it was usable in September 1944 is not sourced, so it is removed as PLAN 9 says.",
+    "TODO(history): opening years of the A15 west of Ressen, the A73 section west of Nijmegen and the A348 between Arnhem and Dieren.",
+    "TODO(history): the Nijmegen rail bridge layout (PLAN 9 step 4). The OSM rail bridge is used as is."
   ]
 }

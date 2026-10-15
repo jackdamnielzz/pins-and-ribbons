@@ -9,9 +9,12 @@ import {
   hexesOnLine,
   indexLines,
   makeGrid,
+  manualCandidate,
   markRiverEdges,
+  orderBanks,
   placeCrossings,
   terrainFor,
+  type CrossingCandidate,
 } from './classify.ts';
 import type { Pt } from './geometry.ts';
 import type { HexRecord } from './map-types.ts';
@@ -19,6 +22,10 @@ import { validateMap } from './validate.ts';
 import { blankHexes, mapOf } from './test-maps.ts';
 
 const p = (x: number, y: number): Pt => ({ x, y });
+const withMeta = (c: CrossingCandidate, id: string): CrossingCandidate => ({
+  ...c,
+  meta: { id, name: c.name, state: 'intact', source: 's' },
+});
 const share = (shares: Float64Array, c: (typeof COVER_CLASSES)[number]): number =>
   shares[COVER_CLASSES.indexOf(c)] as number;
 
@@ -81,22 +88,43 @@ describe('terrainFor', () => {
     minShare: { river: 0.5, 'built-up': 0.3, woodland: 0.45, heath: 0.35 },
     polderMaxElevationM: 14,
   };
+  const none = {
+    footprintShare: 0,
+    minFootprintShare: 0.02,
+    coreShare: 0,
+    coreMinShare: 0.5,
+    heathShare: 0,
+    heathMinShare: 0.5,
+  };
   const shares = (s: Partial<Record<(typeof COVER_CLASSES)[number], number>>): Float64Array =>
     Float64Array.from(COVER_CLASSES.map((c) => s[c] ?? 0));
 
-  it('applies the priority river > built-up > woodland > heath', () => {
-    expect(terrainFor(shares({ 'built-up': 0.3, woodland: 0.6, none: 0.1 }), 20, options)).toBe('built-up');
-    expect(terrainFor(shares({ river: 0.5, 'built-up': 0.5 }), 5, options)).toBe('river');
-    expect(terrainFor(shares({ woodland: 0.45, heath: 0.55 }), 20, options)).toBe('woodland');
+  it('makes a hex built-up from 1944 building footprints or a core mask, not from today', () => {
+    expect(terrainFor(shares({ 'built-up': 0.9 }), 20, options, none)).toBe('open');
+    expect(terrainFor(shares({ woodland: 0.6 }), 20, options, { ...none, footprintShare: 0.02 })).toBe(
+      'built-up',
+    );
+    expect(terrainFor(shares({ none: 1 }), 5, options, { ...none, coreShare: 0.5 })).toBe('built-up');
+    expect(terrainFor(shares({ none: 1 }), 5, options, { ...none, footprintShare: 0.019 })).toBe('polder');
+  });
+
+  it('applies the priority river > built-up > 1944 heath > woodland > heath', () => {
+    const builtUp = { ...none, footprintShare: 0.5 };
+    expect(terrainFor(shares({ river: 0.5 }), 5, options, builtUp)).toBe('river');
+    expect(terrainFor(shares({ woodland: 0.9 }), 20, options, { ...none, heathShare: 0.5 })).toBe('heath');
+    expect(terrainFor(shares({ woodland: 0.9 }), 20, options, { ...builtUp, heathShare: 1 })).toBe(
+      'built-up',
+    );
+    expect(terrainFor(shares({ woodland: 0.45, heath: 0.55 }), 20, options, none)).toBe('woodland');
   });
 
   it('falls back to the largest class when none reaches its minimum', () => {
-    expect(terrainFor(shares({ heath: 0.34, woodland: 0.2, none: 0.3 }), 20, options)).toBe('heath');
+    expect(terrainFor(shares({ heath: 0.34, woodland: 0.2, none: 0.3 }), 20, options, none)).toBe('heath');
   });
 
   it('makes bare land polder when low and open fields when higher', () => {
-    expect(terrainFor(shares({ none: 1 }), 9, options)).toBe('polder');
-    expect(terrainFor(shares({ none: 1 }), 30, options)).toBe('open');
+    expect(terrainFor(shares({ none: 1 }), 9, options, none)).toBe('polder');
+    expect(terrainFor(shares({ none: 1 }), 30, options, none)).toBe('open');
   });
 });
 
@@ -134,12 +162,19 @@ describe('rivers and crossings', () => {
     const candidates = findCrossingPoints(
       [{ kind: 'road', name: 'Test Bridge', osmId: 'way/1', line: road }],
       river,
-    );
+    ).map((c) => withMeta(c, 'road-test-bridge'));
     expect(candidates).toHaveLength(1);
-    const crossings = placeCrossings(grid, hexes, edgeRivers, candidates, 1, () => 'road-test-bridge');
+    const crossings = placeCrossings(grid, hexes, edgeRivers, river, candidates, 1);
     expect(crossings).toHaveLength(1);
     const c = crossings[0];
-    expect(c).toMatchObject({ id: 'road-test-bridge', kind: 'road', river: 'Rhine' });
+    expect(c).toMatchObject({
+      id: 'road-test-bridge',
+      kind: 'road',
+      river: 'Rhine',
+      state: 'intact',
+      source: 's',
+    });
+    // North bank first.
     expect(c?.banks[0][1]).toBe(2);
     expect(c?.banks[1][1]).toBe(3);
     const map = mapOf(6, 6, hexes, crossings, ['road-test-bridge']);
@@ -158,16 +193,33 @@ describe('rivers and crossings', () => {
         line: road.map((q) => p(q.x + 0.02, q.y)).reverse(),
       },
     ];
-    let n = 0;
-    const crossings = placeCrossings(
-      grid,
-      hexes,
-      edgeRivers,
-      findCrossingPoints(lines, river),
-      1,
-      () => `c${++n}`,
-    );
-    expect(crossings.map((c) => c.id)).toEqual(['c1']);
+    const candidates = findCrossingPoints(lines, river).map((c) => withMeta(c, 'twin'));
+    const crossings = placeCrossings(grid, hexes, edgeRivers, river, candidates, 1);
+    expect(crossings.map((c) => c.id)).toEqual(['twin']);
+  });
+
+  it('skips crossings without a sourced spec', () => {
+    const hexes = build();
+    const edgeRivers = markRiverEdges(grid, hexes, river);
+    const candidates = findCrossingPoints([{ kind: 'road', name: 'Modern', line: road }], river);
+    expect(placeCrossings(grid, hexes, edgeRivers, river, candidates, 1)).toEqual([]);
+    expect(hexes.every((h) => h.edgeCrossings.length === 0)).toBe(true);
+  });
+
+  it('places a crossing that is not in OpenStreetMap across the nearest river', () => {
+    const hexes = build();
+    const edgeRivers = markRiverEdges(grid, hexes, river);
+    const at = p(centreOf(grid, offset(4, 2)).x, riverY);
+    const c = manualCandidate(at, 'Rhine', river, 'pontoon', {
+      id: 'pontoon',
+      name: 'P',
+      state: 'damaged',
+      source: 's',
+    });
+    expect(c?.axis.x).toBeCloseTo(0);
+    const crossings = placeCrossings(grid, hexes, edgeRivers, river, c ? [c] : [], 1);
+    expect(crossings).toMatchObject([{ id: 'pontoon', kind: 'pontoon', state: 'damaged' }]);
+    expect(crossings[0]?.banks[0][1]).toBe(2);
   });
 
   it('keeps a road and a rail bridge on the same edge apart', () => {
@@ -177,16 +229,68 @@ describe('rivers and crossings', () => {
       { kind: 'road' as const, name: 'Road', osmId: 'way/1', line: road },
       { kind: 'rail' as const, name: 'Rail', osmId: 'way/2', line: road.map((q) => p(q.x + 0.05, q.y)) },
     ];
-    const crossings = placeCrossings(
-      grid,
-      hexes,
-      edgeRivers,
-      findCrossingPoints(lines, river),
-      1,
-      (c) => c.kind,
-    );
+    const candidates = findCrossingPoints(lines, river).map((c) => withMeta(c, c.kind));
+    const crossings = placeCrossings(grid, hexes, edgeRivers, river, candidates, 1);
     expect(crossings.map((c) => c.id).sort()).toEqual(['rail', 'road']);
     const edge = hexes.flatMap((h) => h.edgeCrossings);
     expect(new Set(edge.map((e) => e.crossing))).toEqual(new Set(['rail', 'road']));
+  });
+});
+
+describe('orderBanks', () => {
+  const grid = makeGrid(4, 4, 1);
+  const a = centreOf(grid, offset(1, 1));
+  const b = centreOf(grid, offset(2, 1));
+  const at = p((a.x + b.x) / 2, a.y);
+
+  it('puts the west bank first where a river runs north-south, whichever way it flows', () => {
+    expect(
+      orderBanks(
+        grid,
+        [
+          [2, 1],
+          [1, 1],
+        ],
+        at,
+        p(0, 1),
+      ),
+    ).toEqual([
+      [1, 1],
+      [2, 1],
+    ]);
+    expect(
+      orderBanks(
+        grid,
+        [
+          [2, 1],
+          [1, 1],
+        ],
+        at,
+        p(0, -1),
+      ),
+    ).toEqual([
+      [1, 1],
+      [2, 1],
+    ]);
+  });
+
+  it('puts the north bank first where a river runs east-west', () => {
+    const n = centreOf(grid, offset(1, 1));
+    const s2 = centreOf(grid, offset(1, 2));
+    const mid = p((n.x + s2.x) / 2, (n.y + s2.y) / 2);
+    expect(
+      orderBanks(
+        grid,
+        [
+          [1, 2],
+          [1, 1],
+        ],
+        mid,
+        p(-1, 0),
+      ),
+    ).toEqual([
+      [1, 1],
+      [1, 2],
+    ]);
   });
 });

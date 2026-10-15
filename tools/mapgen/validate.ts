@@ -8,7 +8,7 @@ import {
   type Direction,
   type Offset,
 } from '../../src/core/hex/index.ts';
-import { TERRAINS, type HexMap, type HexPos, type HexRecord } from './map-types.ts';
+import { CROSSING_STATES, TERRAINS, type HexMap, type HexPos, type HexRecord } from './map-types.ts';
 
 /**
  * PLAN 9 step 7. Works on a finished hexes.json, so the generator and the tests run the
@@ -37,31 +37,32 @@ function indexMap(map: HexMap): MapIndex {
   return { map, at, neighbourOf };
 }
 
-/** Whether a unit can be in this hex. Closed crossings make bridge hexes impassable. */
-function standable(h: HexRecord, crossingsOpen: boolean): boolean {
-  if (crossingsOpen) return h.terrain !== 'river' || (h.crossings?.length ?? 0) > 0;
-  return h.terrain !== 'river' && h.terrain !== 'bridge';
+/** The crossings that are intact at the start of the scenario, and so can be used. */
+function usableIds(map: HexMap): Set<string> {
+  return new Set(map.crossings.filter((c) => c.state === 'intact').map((c) => c.id));
 }
 
-/**
- * Whether a unit could step from hex o in direction d.
- * With `crossingsOpen` false, bridges and ferries are closed, so only land movement counts.
- */
-function canStep(ix: MapIndex, o: Offset, d: Direction, crossingsOpen: boolean): Offset | undefined {
+/** Whether a unit can be in this hex. Bridge and water hexes need an `open` crossing. */
+function standable(h: HexRecord, open: Set<string>): boolean {
+  if (h.terrain !== 'river' && h.terrain !== 'bridge') return true;
+  return (h.crossings ?? []).some((c) => open.has(c));
+}
+
+/** Whether a unit could step from hex o in direction d, using only the `open` crossings. */
+function canStep(ix: MapIndex, o: Offset, d: Direction, open: Set<string>): Offset | undefined {
   const n = ix.neighbourOf(o, d);
   if (!n) return undefined;
   const from = ix.at(o) as HexRecord;
   const to = ix.at(n) as HexRecord;
-  if (!standable(to, crossingsOpen)) return undefined;
-  if (from.riverEdges.includes(d)) {
-    if (!crossingsOpen) return undefined;
-    if (!from.edgeCrossings.some((e) => e.dir === d)) return undefined;
+  if (!standable(to, open)) return undefined;
+  if (from.riverEdges.includes(d) && !from.edgeCrossings.some((e) => e.dir === d && open.has(e.crossing))) {
+    return undefined;
   }
   return n;
 }
 
 /** Connected land components; -1 for hexes nothing can stand on. */
-function components(ix: MapIndex, crossingsOpen: boolean): Int32Array {
+function components(ix: MapIndex, open: Set<string>): Int32Array {
   const { cols, rows } = ix.map.grid;
   const comp = new Int32Array(cols * rows).fill(-1);
   let next = 0;
@@ -69,14 +70,14 @@ function components(ix: MapIndex, crossingsOpen: boolean): Int32Array {
     for (let col = 0; col < cols; col++) {
       const start = offset(col, row);
       const h = ix.at(start) as HexRecord;
-      if (!standable(h, crossingsOpen) || (comp[row * cols + col] as number) >= 0) continue;
+      if (!standable(h, open) || (comp[row * cols + col] as number) >= 0) continue;
       const id = next++;
       comp[row * cols + col] = id;
       const queue = [start];
       while (queue.length > 0) {
         const o = queue.pop() as Offset;
         for (let d = 0; d < 6; d++) {
-          const n = canStep(ix, o, d as Direction, crossingsOpen);
+          const n = canStep(ix, o, d as Direction, open);
           if (!n || (comp[n.row * cols + n.col] as number) >= 0) continue;
           comp[n.row * cols + n.col] = id;
           queue.push(n);
@@ -87,47 +88,101 @@ function components(ix: MapIndex, crossingsOpen: boolean): Int32Array {
   return comp;
 }
 
+const pos = (p: HexPos): Offset => offset(p[0], p[1]);
+const label = (o: Offset): string => `[${o.col},${o.row}]`;
+
+/** One stop of the main route: a crossing to use or a hex to pass through. */
+type RouteTarget = { crossing: string } | { hex: Offset };
+
+export interface RouteResult {
+  /** How many targets the best path reached in order (all of them when complete). */
+  reached: number;
+  /** The shortest complete path, from the south edge to the last target. */
+  path: Offset[];
+  problem?: string;
+}
+
 /**
- * Whether a road path leads from any of `starts` over each crossing in `via`, in order.
- * Steps go between road hexes (or bridge and ferry hexes); a stage is complete when the
- * path crosses an edge carrying that crossing or enters a hex the crossing runs through.
- * Returns the number of crossings reached in order (via.length means the route is complete).
+ * Shortest road path from any of `starts` through every target in order. Steps go between
+ * road hexes (or bridge and ferry hexes) over usable crossings only. A crossing target is
+ * reached by stepping over an edge that carries it or into a hex it runs through.
  */
-function routeStages(ix: MapIndex, starts: Offset[], via: string[]): number {
-  const { cols } = ix.map.grid;
-  const seen = new Set<string>();
-  const key = (o: Offset, stage: number): string => `${o.row * cols + o.col}:${stage}`;
+function routeThrough(ix: MapIndex, starts: Offset[], targets: RouteTarget[]): RouteResult {
+  const { cols, rows } = ix.map.grid;
+  const size = cols * rows;
+  const open = usableIds(ix.map);
+  const key = (o: Offset, stage: number): number => stage * size + o.row * cols + o.col;
+  const reach = (o: Offset, stage: number): number => {
+    const t = targets[stage];
+    return t && 'hex' in t && t.hex.col === o.col && t.hex.row === o.row ? stage + 1 : stage;
+  };
+  const prev = new Map<number, number>();
   const queue: [Offset, number][] = [];
   let best = 0;
-  for (const s of starts) {
-    seen.add(key(s, 0));
-    queue.push([s, 0]);
+  for (const s0 of starts) {
+    const stage = reach(s0, 0);
+    if (prev.has(key(s0, stage))) continue;
+    prev.set(key(s0, stage), -1);
+    queue.push([s0, stage]);
   }
   for (let head = 0; head < queue.length; head++) {
     const [o, stage] = queue[head] as [Offset, number];
     best = Math.max(best, stage);
-    if (stage === via.length) return stage;
+    if (stage === targets.length) {
+      const path: Offset[] = [];
+      for (let k = key(o, stage); k !== -1; k = prev.get(k) as number) {
+        const cell = k % size;
+        const p = offset(cell % cols, Math.floor(cell / cols));
+        const last = path.at(-1);
+        if (!last || last.col !== p.col || last.row !== p.row) path.push(p);
+      }
+      return { reached: stage, path: path.reverse() };
+    }
     const from = ix.at(o) as HexRecord;
+    const t = targets[stage] as RouteTarget;
     for (let d = 0; d < 6; d++) {
-      const n = canStep(ix, o, d as Direction, true);
+      const n = canStep(ix, o, d as Direction, open);
       if (!n) continue;
       const to = ix.at(n) as HexRecord;
       if (!to.road && !to.crossings?.length) continue;
-      const target = via[stage] as string;
       const uses =
-        from.edgeCrossings.some((e) => e.dir === d && e.crossing === target) ||
-        (to.crossings ?? []).includes(target);
-      const next = uses ? stage + 1 : stage;
-      if (seen.has(key(n, next))) continue;
-      seen.add(key(n, next));
+        'crossing' in t &&
+        (from.edgeCrossings.some((e) => e.dir === d && e.crossing === t.crossing) ||
+          (to.crossings ?? []).includes(t.crossing));
+      const next = reach(n, uses ? stage + 1 : stage);
+      if (prev.has(key(n, next))) continue;
+      prev.set(key(n, next), key(o, stage));
       queue.push([n, next]);
     }
   }
-  return best;
+  return { reached: best, path: [] };
 }
 
-const pos = (p: HexPos): Offset => offset(p[0], p[1]);
-const label = (o: Offset): string => `[${o.col},${o.row}]`;
+/** The main route of a map as described by `mainRoute.via`, or why it cannot be found. */
+export function findMainRoute(map: HexMap): RouteResult {
+  const { cols, rows } = map.grid;
+  if (map.hexes.length !== cols * rows) return { reached: 0, path: [], problem: 'the grid is incomplete' };
+  const ix = indexMap(map);
+  const south: Offset[] = [];
+  for (let col = 0; col < cols; col++) {
+    const o = offset(col, rows - 1);
+    if ((ix.at(o) as HexRecord).road) south.push(o);
+  }
+  if (south.length === 0) return { reached: 0, path: [], problem: 'no road hex on the south edge' };
+  const targets: RouteTarget[] = [];
+  const missing: string[] = [];
+  for (const id of map.mainRoute.via) {
+    const anchor = map.anchors.find((a) => a.id === id);
+    const crossing = anchor?.crossing ?? (map.crossings.some((c) => c.id === id) ? id : undefined);
+    if (crossing) targets.push({ crossing });
+    else if (anchor?.hex) targets.push({ hex: pos(anchor.hex) });
+    else missing.push(id);
+  }
+  if (missing.length > 0) {
+    return { reached: 0, path: [], problem: `waypoint(s) ${missing.join(', ')} are not on the map` };
+  }
+  return routeThrough(ix, south, targets);
+}
 
 export function validateMap(map: HexMap): ValidationResult {
   const errors: string[] = [];
@@ -150,6 +205,10 @@ export function validateMap(map: HexMap): ValidationResult {
 
   // River edges and edge crossings are mirrored on both sides, and crossings exist.
   const crossingIds = new Set(map.crossings.map((c) => c.id));
+  for (const c of map.crossings) {
+    if (!CROSSING_STATES.includes(c.state)) errors.push(`crossing ${c.id} has unknown state ${c.state}`);
+    if (!c.source.trim()) errors.push(`crossing ${c.id} has no source`);
+  }
   for (const h of map.hexes) {
     const o = offset(h.col, h.row);
     for (const d of h.riverEdges) {
@@ -183,7 +242,7 @@ export function validateMap(map: HexMap): ValidationResult {
 
   // Rivers are continuous barriers: with every bridge and ferry closed, the two hexes of a
   // river edge must not be connected by land, and neither may the two banks of a crossing.
-  const closed = components(ix, false);
+  const closed = components(ix, new Set());
   const compOf = (o: Offset): number => closed[o.row * cols + o.col] as number;
   const leaks = new Set<string>();
   for (const h of map.hexes) {
@@ -222,23 +281,16 @@ export function validateMap(map: HexMap): ValidationResult {
     }
   }
 
-  // The main road is continuous from the south edge over each crossing in `via`, in order.
-  const south: Offset[] = [];
-  for (let col = 0; col < cols; col++) {
-    const o = offset(col, rows - 1);
-    if ((ix.at(o) as HexRecord).road) south.push(o);
-  }
-  if (south.length === 0) errors.push('main road: no road hex on the south edge');
-  const via = map.mainRoute.via.map((id) => map.anchors.find((a) => a.id === id)?.crossing ?? id);
-  const missing = via.filter((id) => !crossingIds.has(id));
-  if (missing.length > 0) {
-    errors.push(`main road: waypoint(s) ${missing.join(', ')} are not crossings on the map`);
-  } else if (south.length > 0) {
-    const reached = routeStages(ix, south, via);
-    if (reached < via.length) {
-      const done = reached === 0 ? 'the south edge' : (map.mainRoute.via[reached - 1] as string);
-      errors.push(`main road: no road path from ${done} over ${map.mainRoute.via[reached] as string}`);
-    }
+  // The main road runs from the south edge through each waypoint in `via`, in order, over
+  // crossings that are intact at the start, and the stored route is that road.
+  const route = findMainRoute(map);
+  if (route.problem) {
+    errors.push(`main road: ${route.problem}`);
+  } else if (route.reached < map.mainRoute.via.length) {
+    const done = route.reached === 0 ? 'the south edge' : (map.mainRoute.via[route.reached - 1] as string);
+    errors.push(`main road: no road path from ${done} to ${map.mainRoute.via[route.reached] as string}`);
+  } else if (JSON.stringify(route.path.map((o) => [o.col, o.row])) !== JSON.stringify(map.mainRoute.hexes)) {
+    errors.push('main road: mainRoute.hexes does not match the road found over the waypoints');
   }
 
   return { errors, warnings };

@@ -43,10 +43,49 @@ describe('generated map: The Island', () => {
     }
   });
 
-  it('keeps post-war crossings off the map', () => {
+  it('keeps post-war and unsourced crossings off the map', () => {
     const names = map.crossings.map((c) => c.name);
-    for (const modern of ['De Oversteek', 'Nelson Mandelabrug', 'Andrej Sacharovbrug', 'Betuweroute']) {
-      expect(names).not.toContain(modern);
+    for (const gone of [
+      'De Oversteek',
+      'Nelson Mandelabrug',
+      'Andrej Sacharovbrug',
+      'Betuweroute',
+      'Brug bij Westervoort',
+    ]) {
+      expect(names).not.toContain(gone);
     }
+    expect(map.crossings.every((c) => c.source.includes('docs/history/map.md'))).toBe(true);
+  });
+
+  it('records the September 1944 state of each crossing', () => {
+    const state = (id: string) => map.crossings.find((c) => c.id === id)?.state;
+    expect(state('grave-bridge')).toBe('intact');
+    expect(state('heumen-bridge')).toBe('intact');
+    expect(state('arnhem-pontoon-bridge')).toBe('damaged');
+    expect(state('pannerden-ferry')).toBe('not-in-service');
+    for (const id of ['malden-bridge', 'hatert-bridge', 'honinghutje-bridge', 'mook-rail-bridge']) {
+      expect(map.crossings.find((c) => c.id === id)?.fate).toBeTruthy();
+    }
+  });
+
+  it('has heath on the Renkum and Ginkel heath zones and farmland around Groesbeek and Overasselt', () => {
+    const terrainAt = (id: string) => {
+      const hex = map.anchors.find((a) => a.id === id)?.hex as [number, number];
+      return map.hexes[hex[1] * map.grid.cols + hex[0]]?.terrain;
+    };
+    for (const id of ['LZ-Z', 'DZ-X', 'LZ-X', 'DZ-Y']) expect(terrainAt(id)).toBe('heath');
+    for (const id of ['DZ-N', 'DZ-T', 'DZ-O']) expect(['open', 'polder']).toContain(terrainAt(id));
+  });
+
+  it('runs the Club Route through Grave, Heumen, Nijmegen and Elst to the Arnhem bridge', () => {
+    expect(map.mainRoute.via).toEqual([
+      'grave-bridge',
+      'heumen-bridge',
+      'nijmegen-road-bridge',
+      'elst',
+      'arnhem-road-bridge',
+    ]);
+    expect(map.mainRoute.hexes.length).toBeGreaterThan(30);
+    expect(map.mainRoute.hexes[0]?.[1]).toBe(map.grid.rows - 1);
   });
 });

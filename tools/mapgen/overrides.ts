@@ -9,14 +9,20 @@ import type { MapFeature } from './osm.ts';
  *   the override's polygon, if it has one). For post-war features.
  * - `include`: keep features of an opt-in layer (ferries) that match. Opt-in layers keep nothing
  *   unless an override includes it, because most of today's ferries did not exist in 1944.
+ * - `cover`: a polygon of known 1944 land cover (`cover`: `built-up` for a settlement core,
+ *   `heath` for heath). It sets terrain directly; `layers` and `match` are not used.
  *
  * Every override must name its historical reference in `source`; an override without a
  * proper reference says `TODO(history)` there, and the generator lists it in its report.
  */
 
+export type OverrideCover = 'built-up' | 'heath';
+
 export interface Override {
   id: string;
-  action: 'remove' | 'include';
+  action: 'remove' | 'include' | 'cover';
+  /** For `cover`: what the polygon was in 1944. */
+  cover?: OverrideCover;
   layers: string[];
   /** Tag → value. A tag holding a `;` list matches if any part equals the value. */
   match: Record<string, string>;
@@ -48,15 +54,21 @@ export function parseOverrides(json: unknown): OverrideFile {
     const p = f.properties;
     if (!p.id || ids.has(p.id)) throw new Error(`overrides: missing or duplicate id "${p.id}"`);
     ids.add(p.id);
-    if (p.action !== 'remove' && p.action !== 'include')
+    if (p.action !== 'remove' && p.action !== 'include' && p.action !== 'cover')
       throw new Error(`overrides: ${p.id} has unknown action`);
     if (!p.source || p.source.trim() === '') throw new Error(`overrides: ${p.id} has no source property`);
-    if (!p.layers?.length || !p.match || Object.keys(p.match).length === 0) {
-      throw new Error(`overrides: ${p.id} needs layers and match`);
-    }
     const area = f.geometry?.coordinates.map((ring) =>
       ring.map(([x, y]) => ({ x: x as number, y: y as number })),
     );
+    if (p.action === 'cover') {
+      if (p.cover !== 'built-up' && p.cover !== 'heath')
+        throw new Error(`overrides: ${p.id} has unknown cover`);
+      if (!area) throw new Error(`overrides: ${p.id} needs a polygon`);
+      return { ...p, layers: [], match: {}, area };
+    }
+    if (!p.layers?.length || !p.match || Object.keys(p.match).length === 0) {
+      throw new Error(`overrides: ${p.id} needs layers and match`);
+    }
     return area ? { ...p, area } : { ...p };
   });
   return { overrides, todo: fc.todo ?? [] };
@@ -79,7 +91,7 @@ function vertices(f: MapFeature): Pt[] {
 }
 
 export function matches(o: Override, f: MapFeature): boolean {
-  if (!o.layers.includes(f.layer)) return false;
+  if (o.action === 'cover' || !o.layers.includes(f.layer)) return false;
   for (const [tag, wanted] of Object.entries(o.match)) if (!tagMatches(f.tags[tag], wanted)) return false;
   const area = o.area;
   if (area && !vertices(f).some((p) => pointInRings(p, area))) return false;
@@ -104,4 +116,9 @@ export function applyOverrides(features: MapFeature[], file: OverrideFile): Over
     kept.push(f);
   }
   return { features: kept, applied };
+}
+
+/** The `cover` overrides of one kind, as lon/lat polygons. */
+export function coverAreas(file: OverrideFile, cover: OverrideCover): Ring[][] {
+  return file.overrides.filter((o) => o.action === 'cover' && o.cover === cover).map((o) => o.area ?? []);
 }

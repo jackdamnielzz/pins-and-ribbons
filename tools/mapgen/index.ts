@@ -2,7 +2,7 @@
  * Map generator (PLAN 9). Usage: npm run mapgen -- [region] [--refresh] [--offline]
  *
  * 1. extent from tools/mapgen/regions/<region>.json
- * 2. OpenStreetMap layers via Overpass (cached in tools/mapgen/cache/)
+ * 2. OpenStreetMap layers via Overpass, and 1944 buildings from BAG (cached in tools/mapgen/cache/)
  * 3. SRTM elevation (cached)
  * 4. historical overrides from tools/mapgen/overrides/<region>.geojson
  * 5. projection to map km and simplification
@@ -12,7 +12,9 @@
  */
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { loadBuildings } from './bag.ts';
 import {
+  COVER_CLASSES,
   coverShares,
   findCrossingPoints,
   hexAt,
@@ -20,22 +22,24 @@ import {
   indexLines,
   indexOf,
   makeGrid,
+  manualCandidate,
   markRiverEdges,
   placeCrossings,
   round3,
   terrainFor,
   type CoverPolygon,
+  type CrossingCandidate,
   type CrossingLine,
 } from './classify.ts';
 import { contour, loadTile, resample, smooth, type HgtTile } from './elevation.ts';
 import { clipLine, clipRing, ringArea, simplify, simplifyRing, type Box, type Pt } from './geometry.ts';
 import type { AnchorRecord, CrossingRecord, HexMap, HexRecord, Terrain } from './map-types.ts';
 import { convertLayer, type ConvertStats, type MapFeature } from './osm.ts';
-import { applyOverrides, loadOverrides } from './overrides.ts';
+import { applyOverrides, coverAreas, loadOverrides, type Override } from './overrides.ts';
 import { fetchLayer, layerQueries, type BBox } from './overpass.ts';
 import { fromRD, toRD, type LonLat } from './projection.ts';
-import { loadRegion, type CrossingSpec, type Region } from './region.ts';
-import { validateMap } from './validate.ts';
+import { loadRegion, type Region } from './region.ts';
+import { findMainRoute, validateMap } from './validate.ts';
 
 const ROOT = join(import.meta.dirname, '..', '..');
 const CACHE = join(import.meta.dirname, 'cache');
@@ -47,15 +51,6 @@ function parseArgs(argv: string[]): { region: string; refresh: boolean; offline:
   for (const f of flags) if (f !== '--refresh' && f !== '--offline') throw new Error(`unknown option ${f}`);
   const region = argv.find((a) => !a.startsWith('--')) ?? 'the-island';
   return { region, refresh: flags.has('--refresh'), offline: flags.has('--offline') };
-}
-
-function slug(s: string): string {
-  return s
-    .normalize('NFKD')
-    .replace(/[̀-ͯ]/g, '')
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-|-$/g, '');
 }
 
 async function main(): Promise<void> {
@@ -102,6 +97,21 @@ async function main(): Promise<void> {
     `  ${features.length} features (${stats.forcedRings} rings closed by force, ${stats.skipped} skipped)`,
   );
 
+  console.log(`  BAG buildings up to ${region.builtUp.maxYear}`);
+  const buildings = await loadBuildings(
+    CACHE,
+    {
+      minX: region.originRD.x - 1000,
+      minY: region.originRD.y - Math.ceil(grid.heightKm + 1) * 1000,
+      maxX: region.originRD.x + Math.ceil(grid.widthKm + 1) * 1000,
+      maxY: region.originRD.y + 1000,
+    },
+    region.builtUp.maxYear,
+    region.builtUp.tileM,
+    args,
+  );
+  console.log(`  ${buildings.length} buildings`);
+
   // Step 3: elevation.
   console.log('Step 3: elevation');
   const tiles: HgtTile[] = [];
@@ -116,7 +126,7 @@ async function main(): Promise<void> {
   console.log('Step 4: historical overrides');
   const overridden = applyOverrides(features, overrideFile);
   features = overridden.features;
-  for (const o of overrideFile.overrides) {
+  for (const o of overrideFile.overrides.filter((x) => x.action !== 'cover')) {
     const n = overridden.applied[o.id] ?? 0;
     console.log(`  ${o.action} ${o.id}: ${n} feature(s)${n === 0 ? '  <-- matched nothing' : ''}`);
   }
@@ -151,7 +161,7 @@ async function main(): Promise<void> {
   const tags = (f: MapFeature, k: string): string | undefined => f.tags[k];
   const coverOf = (f: MapFeature): CoverPolygon['cover'] | undefined => {
     if (f.layer === 'water') return 'river';
-    if (tags(f, 'landuse') === 'residential') return 'built-up';
+    // Today's residential areas are not used: 1944 built-up area comes from BAG and core masks.
     if (tags(f, 'landuse') === 'forest' || tags(f, 'natural') === 'wood') return 'woodland';
     if (tags(f, 'natural') === 'heath') return 'heath';
     return undefined;
@@ -164,6 +174,28 @@ async function main(): Promise<void> {
   }
   const shares = coverShares(grid, polygons, region.rasterCellM / 1000);
 
+  // 1944 evidence: building footprints from BAG, and sourced core and heath polygons.
+  const hexAreaKm2 = (Math.sqrt(3) / 2) * region.grid.hexAcrossFlatsKm ** 2;
+  const footprint = new Float64Array(grid.cols * grid.rows);
+  for (const b of buildings) {
+    const o = hexAt(grid, { x: (b.x - region.originRD.x) / 1000, y: (region.originRD.y - b.y) / 1000 });
+    if (o)
+      footprint[indexOf(grid, o)] = (footprint[indexOf(grid, o)] as number) + b.areaM2 / 1e6 / hexAreaKm2;
+  }
+  const overrideShares = (cover: 'built-up' | 'heath'): Float64Array => {
+    const rings = coverAreas(overrideFile, cover).map((area) =>
+      area.map((ring) => ring.map((p) => toMap({ lon: p.x, lat: p.y }))),
+    );
+    const counts = coverShares(
+      grid,
+      rings.map((r) => ({ cover, rings: r })),
+      region.rasterCellM / 1000,
+    );
+    return Float64Array.from(counts.map((c) => c[COVER_CLASSES.indexOf(cover)] as number));
+  };
+  const coreShare = overrideShares('built-up');
+  const heathShare = overrideShares('heath');
+
   const hexes: HexRecord[] = [];
   for (let row = 0; row < grid.rows; row++) {
     for (let col = 0; col < grid.cols; col++) {
@@ -172,7 +204,14 @@ async function main(): Promise<void> {
       hexes.push({
         col,
         row,
-        terrain: terrainFor(shares[k] as Float64Array, elevationM, region.classification),
+        terrain: terrainFor(shares[k] as Float64Array, elevationM, region.classification, {
+          footprintShare: footprint[k] as number,
+          minFootprintShare: region.builtUp.minFootprintShare,
+          coreShare: coreShare[k] as number,
+          coreMinShare: region.builtUp.coreMinShare,
+          heathShare: heathShare[k] as number,
+          heathMinShare: region.heathOverrideMinShare,
+        }),
         road: false,
         rail: false,
         elevationM: Math.round(elevationM * 10) / 10,
@@ -214,21 +253,42 @@ async function main(): Promise<void> {
     const name = tags(f, 'bridge:name') ?? tags(f, 'name') ?? tags(f, 'ref') ?? '';
     crossingLines.push({ kind, name, osmId: f.id, line: lineOf(f) });
   }
-  const usedIds = new Set<string>();
-  const crossings = placeCrossings(
-    grid,
-    hexes,
-    edgeRivers,
-    findCrossingPoints(crossingLines, rivers).sort((a, b) => a.osmId.localeCompare(b.osmId)),
-    region.crossingWindowKm,
-    (c) => {
-      const base = `${c.kind}-${slug(c.name || c.river)}`;
-      let id = base;
-      for (let n = 2; usedIds.has(id); n++) id = `${base}-${n}`;
-      usedIds.add(id);
-      return id;
-    },
-  );
+  // Only crossings with a 1944 source are kept (region `crossings`); every other bridge or
+  // ferry found in OpenStreetMap is dropped and listed.
+  const matchKm = region.crossingMatchKm;
+  const candidates: CrossingCandidate[] = [];
+  const dropped = new Map<string, string>();
+  for (const c of findCrossingPoints(crossingLines, rivers).sort((a, b) =>
+    (a.osmId ?? '').localeCompare(b.osmId ?? ''),
+  )) {
+    const spec = region.crossings.find((x) => {
+      if (x.manual || x.kind !== c.kind || x.river !== c.river) return false;
+      if (x.nameIncludes && !c.name.includes(x.nameIncludes)) return false;
+      const near = toMap({ lon: x.near[0], lat: x.near[1] });
+      return Math.hypot(near.x - c.at.x, near.y - c.at.y) <= matchKm;
+    });
+    if (spec) {
+      candidates.push({ ...c, meta: spec });
+    } else {
+      dropped.set(`${c.kind} "${c.name}" over ${c.river}`, c.osmId ?? '');
+    }
+  }
+  for (const spec of region.crossings.filter((x) => x.manual)) {
+    const c = manualCandidate(
+      toMap({ lon: spec.near[0], lat: spec.near[1] }),
+      spec.river,
+      rivers,
+      spec.kind,
+      spec,
+    );
+    if (c) candidates.push(c);
+  }
+  const crossings = placeCrossings(grid, hexes, edgeRivers, rivers, candidates, region.crossingWindowKm);
+  for (const spec of region.crossings) {
+    if (!crossings.some((c) => c.id === spec.id))
+      console.log(`  warning: sourced crossing ${spec.id} not found`);
+  }
+  for (const [what, osmId] of dropped) console.log(`  dropped (no 1944 source): ${what} ${osmId}`);
 
   // Town names: the most important place in each hex.
   const places = projected
@@ -267,8 +327,9 @@ async function main(): Promise<void> {
     hexes,
     crossings,
     anchors,
-    mainRoute: { via: region.mainRoute.via, note: region.mainRoute.note },
+    mainRoute: { via: region.mainRoute.via, note: region.mainRoute.note, hexes: [] },
   };
+  map.mainRoute.hexes = findMainRoute(map).path.map((o) => [o.col, o.row]);
 
   // Step 7: validation.
   console.log('Step 7: validation');
@@ -294,7 +355,18 @@ async function main(): Promise<void> {
   writeFileSync(join(outDir, 'hexes.json'), `${JSON.stringify(map)}\n`);
   writeFileSync(
     join(outDir, 'layers.geojson'),
-    `${JSON.stringify(buildLayers(projected, crossings, contourGrid, region, clipBox, grid.heightKm))}\n`,
+    `${JSON.stringify(
+      buildLayers(
+        projected,
+        overrideFile.overrides.filter((o) => o.action === 'cover'),
+        (p) => toMap({ lon: p.x, lat: p.y }),
+        crossings,
+        contourGrid,
+        region,
+        clipBox,
+        grid.heightKm,
+      ),
+    )}\n`,
   );
   const labels = places.flatMap((p) => {
     const o = hexAt(grid, p.at);
@@ -336,6 +408,12 @@ async function main(): Promise<void> {
         attribution: 'SRTM 1 arc-second (NASA/USGS), via the AWS Terrain Tiles open dataset',
         licence: 'Public domain',
       },
+      buildings: {
+        attribution: 'Basisregistratie Adressen en Gebouwen (BAG), Kadaster, via PDOK',
+        licence: 'CC0 1.0',
+        url: 'https://service.pdok.nl/lv/bag/wfs/v2_0',
+        rule: region.builtUp.note,
+      },
     },
     overrides: overrideFile.overrides.map((o) => ({
       id: o.id,
@@ -360,30 +438,20 @@ function resolveAnchors(
   grid: ReturnType<typeof makeGrid>,
 ): AnchorRecord[] {
   const out: AnchorRecord[] = [];
-  const findCrossing = (spec: CrossingSpec): CrossingRecord | undefined => {
-    const target = toMap({ lon: spec.near[0], lat: spec.near[1] });
-    return crossings
-      .filter((c) => c.kind === spec.kind && c.river === spec.river)
-      .filter((c) => !spec.nameIncludes || c.name.includes(spec.nameIncludes))
-      .sort(
-        (a, b) =>
-          Math.hypot(a.at[0] - target.x, a.at[1] - target.y) -
-          Math.hypot(b.at[0] - target.x, b.at[1] - target.y),
-      )[0];
-  };
   for (const o of region.objectives) {
     const base = { id: o.id, name: o.name, kind: 'objective' as const, source: o.source };
     if (o.todo !== undefined || !o.crossing) {
       out.push({ ...base, todo: o.todo ?? 'TODO(history): no location' });
       continue;
     }
-    const c = findCrossing(o.crossing);
-    if (!c) {
-      out.push(base);
-      continue;
-    }
+    const c = crossings.find((x) => x.id === o.crossing);
     // The objective hex is the north (or west) bank hex of the crossing.
-    out.push({ ...base, hex: c.banks[0], crossing: c.id });
+    out.push(c ? { ...base, hex: c.banks[0], crossing: c.id } : base);
+  }
+  for (const w of region.waypoints) {
+    const o = hexAt(grid, toMap({ lon: w.near[0], lat: w.near[1] }));
+    const base = { id: w.id, name: w.name, kind: 'waypoint' as const, source: w.source };
+    out.push(o ? { ...base, hex: [o.col, o.row] } : base);
   }
   for (const z of region.zones) {
     const base = {
@@ -416,6 +484,8 @@ function resolveAnchors(
 
 function buildLayers(
   features: MapFeature[],
+  overrides: Override[],
+  toMapPt: (p: Pt) => Pt,
   crossings: CrossingRecord[],
   contourGrid: ReturnType<typeof smooth>,
   region: Region,
@@ -439,7 +509,6 @@ function buildLayers(
     if (f.layer === 'rail') return 'rail';
     if (f.layer === 'ferries') return 'ferry';
     if (f.layer === 'landcover') {
-      if (t['landuse'] === 'residential') return 'built-up';
       if (t['landuse'] === 'forest' || t['natural'] === 'wood') return 'woodland';
       if (t['natural'] === 'heath') return 'heath';
     }
@@ -466,6 +535,14 @@ function buildLayers(
       }
     }
   }
+  for (const o of overrides) {
+    const layer = o.cover === 'built-up' ? 'settlement-core-1944' : 'heath-1944';
+    const rings = (o.area ?? [])
+      .map((ring) => clipRing(ring.map(toMapPt), clipBox))
+      .filter((x): x is Pt[] => !!x);
+    if (rings.length > 0)
+      push({ layer, id: o.id }, { type: 'Polygon', coordinates: rings.map((ring) => ring.map(r)) });
+  }
   const top = Math.max(...contourGrid.values);
   for (let level = region.elevation.contourMinM; level <= top; level += region.elevation.contourIntervalM) {
     for (const line of contour(contourGrid, level)) {
@@ -476,7 +553,7 @@ function buildLayers(
   }
   for (const c of crossings) {
     push(
-      { layer: 'crossing', id: c.id, kind: c.kind, name: c.name, river: c.river },
+      { layer: 'crossing', id: c.id, kind: c.kind, name: c.name, river: c.river, state: c.state },
       { type: 'Point', coordinates: c.at },
     );
   }
@@ -498,11 +575,12 @@ function report(map: HexMap, todo: string[]): void {
   console.log(`  river edges: ${map.hexes.reduce((s, h) => s + h.riverEdges.length, 0) / 2}`);
   console.log(`  crossings (${map.crossings.length}):`);
   for (const c of map.crossings)
-    console.log(`    ${c.id} [${c.kind}] "${c.name}" over ${c.river}, banks ${JSON.stringify(c.banks)}`);
+    console.log(`    ${c.id} [${c.kind}, ${c.state}] over ${c.river}, banks ${JSON.stringify(c.banks)}`);
   for (const a of map.anchors)
     console.log(
       `  ${a.kind} ${a.id}: ${a.hex ? JSON.stringify(a.hex) : 'no hex'}${a.crossing ? ` (${a.crossing})` : ''}`,
     );
+  console.log(`  main route: ${map.mainRoute.hexes.length} hexes`);
   for (const t of todo) console.log(`  todo: ${t}`);
 }
 

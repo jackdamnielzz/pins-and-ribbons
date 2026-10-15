@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { MapFeature } from './osm.ts';
-import { applyOverrides, parseOverrides } from './overrides.ts';
+import { applyOverrides, coverAreas, parseOverrides } from './overrides.ts';
 
 const feature = (id: string, layer: string, tags: Record<string, string>, x = 0, y = 0): MapFeature => ({
   id,
@@ -41,6 +41,31 @@ describe('parseOverrides', () => {
     expect(() => parseOverrides(file([override({ id: 'a', ...o, match: {} })]))).toThrow(
       /needs layers and match/,
     );
+  });
+
+  it('reads cover polygons, which need a polygon and a known cover', () => {
+    const square = {
+      type: 'Polygon',
+      coordinates: [
+        [
+          [0, 0],
+          [1, 0],
+          [1, 1],
+          [0, 0],
+        ],
+      ],
+    };
+    const parsed = parseOverrides(
+      file([override({ id: 'core', action: 'cover', cover: 'built-up', source: 's' }, square)]),
+    );
+    expect(coverAreas(parsed, 'built-up')).toHaveLength(1);
+    expect(coverAreas(parsed, 'heath')).toHaveLength(0);
+    expect(() =>
+      parseOverrides(file([override({ id: 'c', action: 'cover', cover: 'built-up', source: 's' })])),
+    ).toThrow(/needs a polygon/);
+    expect(() =>
+      parseOverrides(file([override({ id: 'c', action: 'cover', cover: 'lava', source: 's' }, square)])),
+    ).toThrow(/unknown cover/);
   });
 
   it('keeps the todo list', () => {

@@ -1,4 +1,5 @@
 import type { CrossingRecord, HexMap, HexRecord } from './map-types.ts';
+import { findMainRoute } from './validate.ts';
 
 /** Small hand-built maps for the mapgen tests. */
 
@@ -22,6 +23,14 @@ export function blankHexes(cols: number, rows: number): HexRecord[] {
   return hexes;
 }
 
+/** A crossing record for tests: intact, with a source. */
+export function crossingOf(
+  fields: Pick<CrossingRecord, 'id' | 'banks'> & Partial<CrossingRecord>,
+): CrossingRecord {
+  return { kind: 'road', name: '', river: 'R', at: [0, 0], state: 'intact', source: 'test', ...fields };
+}
+
+/** A test map; `mainRoute.hexes` is filled in the way the generator does it. */
 export function mapOf(
   cols: number,
   rows: number,
@@ -29,7 +38,7 @@ export function mapOf(
   crossings: CrossingRecord[] = [],
   via: string[] = [],
 ): HexMap {
-  return {
+  const map: HexMap = {
     version: 1,
     id: 'test',
     name: 'Test',
@@ -38,6 +47,8 @@ export function mapOf(
     hexes,
     crossings,
     anchors: [],
-    mainRoute: { via, note: 'test' },
+    mainRoute: { via, note: 'test', hexes: [] },
   };
+  map.mainRoute.hexes = findMainRoute(map).path.map((o) => [o.col, o.row]);
+  return map;
 }

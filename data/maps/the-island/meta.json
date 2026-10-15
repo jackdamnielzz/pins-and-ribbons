@@ -40,6 +40,12 @@
     "elevation": {
       "attribution": "SRTM 1 arc-second (NASA/USGS), via the AWS Terrain Tiles open dataset",
       "licence": "Public domain"
+    },
+    "buildings": {
+      "attribution": "Basisregistratie Adressen en Gebouwen (BAG), Kadaster, via PDOK",
+      "licence": "CC0 1.0",
+      "url": "https://service.pdok.nl/lv/bag/wfs/v2_0",
+      "rule": "1944 built-up area: BAG building footprints (PDOK) with bouwjaar up to maxYear. A hex is built-up when those footprints cover at least minFootprintShare of it, or when at least coreMinShare of it lies inside a settlement-core mask from the overrides file. Decision 0006."
     }
   },
   "overrides": [
@@ -47,93 +53,124 @@
       "id": "remove-a12",
       "action": "remove",
       "applied": 184,
-      "source": "PLAN 9 step 4 names this as post-war (motorway A12). TODO(history): add a source for its construction date to docs/history."
+      "source": "docs/history/map.md (Removed post-war features): A12 near Arnhem opened 1957 and 1961."
     },
     {
       "id": "remove-a50",
       "action": "remove",
       "applied": 243,
-      "source": "PLAN 9 step 4 names this as post-war (motorway A50). TODO(history): add a source for its construction date to docs/history."
+      "source": "docs/history/map.md (Removed post-war features): first A50 section opened 1957."
     },
     {
       "id": "remove-a325",
       "action": "remove",
       "applied": 58,
-      "source": "PLAN 9 step 4 names this as post-war (motorway A325). TODO(history): add a source for its construction date to docs/history."
+      "source": "PLAN 9 step 4 names the A325 as post-war; docs/history/map.md (Removed post-war features) records that work on its predecessor Rijksweg 52 began during the war. TODO(history): whether any of it was usable in September 1944."
     },
     {
       "id": "remove-a15",
       "action": "remove",
       "applied": 90,
-      "source": "TODO(history): motorway assumed post-war; not named in PLAN 9 or docs/history."
+      "source": "docs/history/map.md (Removed post-war features): the A15 meets the A325 at knooppunt Ressen, opened 1980. TODO(history): opening year of the A15 west of Ressen."
     },
     {
       "id": "remove-a73",
       "action": "remove",
       "applied": 131,
-      "source": "TODO(history): motorway assumed post-war; not named in PLAN 9 or docs/history."
+      "source": "docs/history/map.md (Removed post-war features): main A73 sections from 1986. TODO(history): opening year of the short section west of Nijmegen."
     },
     {
       "id": "remove-a326",
       "action": "remove",
       "applied": 28,
-      "source": "TODO(history): motorway assumed post-war; not named in PLAN 9 or docs/history."
+      "source": "docs/history/map.md (Removed post-war features): opened 12 June 1975."
     },
     {
       "id": "remove-a348",
       "action": "remove",
       "applied": 70,
-      "source": "TODO(history): motorway assumed post-war; not named in PLAN 9 or docs/history."
+      "source": "TODO(history): no source found for the opening year of the A348 (former Rijksweg 48) between Arnhem and Dieren."
     },
     {
       "id": "remove-de-oversteek",
       "action": "remove",
       "applied": 6,
-      "source": "PLAN 9 step 4 names this as post-war (modern Waal bridges). TODO(history): add a source for its construction date to docs/history."
+      "source": "docs/history/map.md (Removed post-war features): opened November 2013."
     },
     {
       "id": "remove-nelson-mandelabrug",
       "action": "remove",
       "applied": 5,
-      "source": "TODO(history): second Arnhem Rhine road bridge, assumed post-war; not named in PLAN 9 or docs/history."
+      "source": "docs/history/map.md (Removed post-war features): opened 18 December 1977 as the Roermondspleinbrug."
     },
     {
       "id": "remove-andrej-sacharovbrug",
       "action": "remove",
       "applied": 3,
-      "source": "TODO(history): Arnhem Rhine road bridge (Pleijroute), assumed post-war; not named in PLAN 9 or docs/history."
+      "source": "docs/history/map.md (Removed post-war features): opened 3 November 1987."
     },
     {
       "id": "remove-betuweroute",
       "action": "remove",
       "applied": 86,
-      "source": "TODO(history): freight railway across the Island, assumed post-war; PLAN 9 names the Pannerdens Kanaal bridges as post-war but not the line itself."
+      "source": "docs/history/map.md (Removed post-war features): opened 16 June 2007."
     },
     {
       "id": "remove-spiegelwaal",
       "action": "remove",
       "applied": 4,
-      "source": "TODO(history): side channel of the Waal at Lent, assumed post-war; not named in PLAN 9 or docs/history."
+      "source": "docs/history/map.md (Removed post-war features): dug 2013–2015, opened 3 December 2015."
     },
     {
       "id": "include-heveadorp-ferry",
       "action": "include",
       "applied": 1,
-      "source": "docs/history/zones.md: Heveadorp–Driel ferry (Liberation Route). Located as the OSM ferry Drielse Veer between Heveadorp and Driel."
+      "source": "docs/history/map.md (Heveadorp ferry)."
     },
     {
       "id": "include-pannerden-ferry",
       "action": "include",
       "applied": 1,
-      "source": "docs/history/german-forces.md: 10th SS crossed by the Pannerden ferry (PLAN 14.2, confirmed). TODO(history): confirm that the 1944 ferry ran on the line of today's Pannerden–Doornenburg ferry."
+      "source": "docs/history/map.md (Pannerden ferry)."
+    },
+    {
+      "id": "core-arnhem",
+      "action": "cover",
+      "applied": 0,
+      "source": "docs/history/map.md (Settlement cores): Arnhem's centre was badly damaged in 1944 and rebuilt after 1945, so BAG under-counts it."
+    },
+    {
+      "id": "core-nijmegen-stadscentrum",
+      "action": "cover",
+      "applied": 0,
+      "source": "docs/history/map.md (Settlement cores): the Bovenstad was largely destroyed in the bombing of 22 February 1944."
+    },
+    {
+      "id": "core-nijmegen-benedenstad",
+      "action": "cover",
+      "applied": 0,
+      "source": "docs/history/map.md (Settlement cores): the Benedenstad was part of the 1944 inner city."
+    },
+    {
+      "id": "heath-renkum",
+      "action": "cover",
+      "applied": 0,
+      "source": "docs/history/map.md (Heath): Renkum Heath, landing area of DZ X, LZ X and LZ Z."
+    },
+    {
+      "id": "heath-ginkel",
+      "action": "cover",
+      "applied": 0,
+      "source": "docs/history/map.md (Heath): Ginkel Heath, DZ Y."
     }
   ],
   "todo": [
-    "TODO(history): 1944 town extents. Built-up hexes come from today's residential areas, so post-war districts (for example south of the Rhine at Arnhem and north of the Waal at Nijmegen) count as built-up. Needs a 1944 map source (PLAN 9 step 4) before they can be cut back.",
-    "TODO(history): post-war suburbs (PLAN 9 step 4) need polygons from a dated 1944 map; none are in docs/history.",
-    "TODO(history): Arnhem pontoon bridge. No location in docs/history and not in OpenStreetMap; it is not crossable, so it is not added as a crossing.",
-    "TODO(history): Nijmegen rail bridge layout (PLAN 9 step 4). docs/history has no description of the 1944 layout; the OSM rail bridge is used as is.",
-    "TODO(history): Pannerdens Kanaal bridges (PLAN 9 step 4). The ones in OpenStreetMap carry the A15 and the Betuweroute and are removed with them; check none remain.",
-    "TODO(history): bridges kept from OpenStreetMap without a 1944 source: Maas–Waal canal bridges, Maas bridges, IJssel bridges at Westervoort and the Mook rail bridge. Check each against a 1944 source."
+    "TODO(history): HGN 1900 and 1960 (WUR) are CC-BY but only handed out through a request form; with them, heath and woodland could come from 1944-era land use instead of today's OpenStreetMap plus the two sourced heath polygons (decision 0006).",
+    "TODO(history): 1944 built-up area on the German side of the border (Wyler, Kranenburg, Zyfflich). BAG covers the Netherlands only, so these villages are not built-up on the map.",
+    "TODO(history): supply dropping point V. No source found that places it.",
+    "TODO(history): Westervoort IJssel bridges. No source found for their state in September 1944, so they are not on the map; the IJssel has no crossing.",
+    "TODO(history): A325 / Rijksweg 52 between Nijmegen and Arnhem. Work began during the war; whether any of it was usable in September 1944 is not sourced, so it is removed as PLAN 9 says.",
+    "TODO(history): opening years of the A15 west of Ressen, the A73 section west of Nijmegen and the A348 between Arnhem and Dieren.",
+    "TODO(history): the Nijmegen rail bridge layout (PLAN 9 step 4). The OSM rail bridge is used as is."
   ]
 }
