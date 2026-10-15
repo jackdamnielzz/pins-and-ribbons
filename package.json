@@ -14,7 +14,8 @@
     "test:watch": "vitest",
     "lint": "eslint . && npm run typecheck && prettier --check .",
     "typecheck": "tsc -p tsconfig.json && tsc -p tsconfig.core.json && tsc -p tsconfig.node.json",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "mapgen": "node tools/mapgen/index.ts"
   },
   "dependencies": {
     "@preact/signals": "^2.11.3",

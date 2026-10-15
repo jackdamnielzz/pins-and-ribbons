@@ -1,0 +1,2158 @@
+[
+ {
+  "name": "Arnhem",
+  "kind": "city",
+  "priority": 1,
+  "at": [
+   14.973,
+   7.886
+  ],
+  "hex": [
+   14,
+   9
+  ],
+  "osmId": "node/6394641551"
+ },
+ {
+  "name": "Nijmegen",
+  "kind": "city",
+  "priority": 1,
+  "at": [
+   11.838,
+   23.124
+  ],
+  "hex": [
+   11,
+   26
+  ],
+  "osmId": "node/867975219"
+ },
+ {
+  "name": "Beuningen",
+  "kind": "town",
+  "priority": 2,
+  "at": [
+   5.188,
+   21.921
+  ],
+  "hex": [
+   4,
+   25
+  ],
+  "osmId": "node/44116743"
+ },
+ {
+  "name": "Duiven",
+  "kind": "town",
+  "priority": 2,
+  "at": [
+   22.82,
+   11.681
+  ],
+  "hex": [
+   22,
+   13
+  ],
+  "osmId": "node/6482147169"
+ },
+ {
+  "name": "Elst",
+  "kind": "town",
+  "priority": 2,
+  "at": [
+   10.512,
+   15.2
+  ],
+  "hex": [
+   10,
+   17
+  ],
+  "osmId": "node/2480571631"
+ },
+ {
+  "name": "Grave",
+  "kind": "town",
+  "priority": 2,
+  "at": [
+   3.434,
+   32.945
+  ],
+  "hex": [
+   2,
+   37
+  ],
+  "osmId": "node/3123199556"
+ },
+ {
+  "name": "Groesbeek",
+  "kind": "town",
+  "priority": 2,
+  "at": [
+   16.499,
+   31.257
+  ],
+  "hex": [
+   16,
+   36
+  ],
+  "osmId": "node/43809511"
+ },
+ {
+  "name": "Huissen",
+  "kind": "town",
+  "priority": 2,
+  "at": [
+   16.971,
+   12.979
+  ],
+  "hex": [
+   16,
+   14
+  ],
+  "osmId": "node/6394959708"
+ },
+ {
+  "name": "Kranenburg",
+  "kind": "town",
+  "priority": 2,
+  "at": [
+   21.792,
+   29.495
+  ],
+  "hex": [
+   21,
+   33
+  ],
+  "osmId": "node/240086014"
+ },
+ {
+  "name": "Oosterbeek",
+  "kind": "town",
+  "priority": 2,
+  "at": [
+   10.243,
+   7.452
+  ],
+  "hex": [
+   10,
+   8
+  ],
+  "osmId": "node/57444087"
+ },
+ {
+  "name": "Rheden",
+  "kind": "town",
+  "priority": 2,
+  "at": [
+   23.157,
+   5.581
+  ],
+  "hex": [
+   23,
+   6
+  ],
+  "osmId": "node/44816212"
+ },
+ {
+  "name": "Velp",
+  "kind": "town",
+  "priority": 2,
+  "at": [
+   19.377,
+   6.561
+  ],
+  "hex": [
+   18,
+   7
+  ],
+  "osmId": "node/6030464702"
+ },
+ {
+  "name": "Westervoort",
+  "kind": "town",
+  "priority": 2,
+  "at": [
+   18.866,
+   10.254
+  ],
+  "hex": [
+   18,
+   11
+  ],
+  "osmId": "node/44611898"
+ },
+ {
+  "name": "Wijchen",
+  "kind": "town",
+  "priority": 2,
+  "at": [
+   2.377,
+   27.664
+  ],
+  "hex": [
+   1,
+   31
+  ],
+  "osmId": "node/2717911208"
+ },
+ {
+  "name": "Alverna",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   4.449,
+   28.062
+  ],
+  "hex": [
+   4,
+   32
+  ],
+  "osmId": "node/43881561"
+ },
+ {
+  "name": "Andelst",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   2.516,
+   16.516
+  ],
+  "hex": [
+   2,
+   18
+  ],
+  "osmId": "node/44338502"
+ },
+ {
+  "name": "Angeren",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   18.195,
+   15.426
+  ],
+  "hex": [
+   17,
+   17
+  ],
+  "osmId": "node/9173365935"
+ },
+ {
+  "name": "Balgoij",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   1.624,
+   30.684
+  ],
+  "hex": [
+   1,
+   35
+  ],
+  "osmId": "node/43826828"
+ },
+ {
+  "name": "Beek",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   16.046,
+   25.167
+  ],
+  "hex": [
+   15,
+   29
+  ],
+  "osmId": "node/5544031874"
+ },
+ {
+  "name": "Bemmel",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   14.195,
+   18.208
+  ],
+  "hex": [
+   14,
+   20
+  ],
+  "osmId": "node/44268309"
+ },
+ {
+  "name": "Berg en Dal",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   14.995,
+   25.49
+  ],
+  "hex": [
+   14,
+   29
+  ],
+  "osmId": "node/11197339394"
+ },
+ {
+  "name": "Breedeweg",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   17.365,
+   32.97
+  ],
+  "hex": [
+   16,
+   37
+  ],
+  "osmId": "node/43770459"
+ },
+ {
+  "name": "De Eng",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   21.553,
+   10.834
+  ],
+  "hex": [
+   21,
+   12
+  ],
+  "osmId": "node/13059857502"
+ },
+ {
+  "name": "De Horst",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   19.22,
+   31.205
+  ],
+  "hex": [
+   18,
+   35
+  ],
+  "osmId": "node/43810090"
+ },
+ {
+  "name": "Doornenburg",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   21.291,
+   18.304
+  ],
+  "hex": [
+   21,
+   20
+  ],
+  "osmId": "node/44260943"
+ },
+ {
+  "name": "Doorwerth",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   7.694,
+   8.533
+  ],
+  "hex": [
+   7,
+   9
+  ],
+  "osmId": "node/44705958"
+ },
+ {
+  "name": "Driel",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   8.488,
+   10.721
+  ],
+  "hex": [
+   8,
+   12
+  ],
+  "osmId": "node/44600016"
+ },
+ {
+  "name": "Escharen",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   3.859,
+   34.75
+  ],
+  "hex": [
+   3,
+   39
+  ],
+  "osmId": "node/43713467"
+ },
+ {
+  "name": "Ewijk",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   3.238,
+   20.766
+  ],
+  "hex": [
+   2,
+   23
+  ],
+  "osmId": "node/44157311"
+ },
+ {
+  "name": "Frasselt",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   22.897,
+   31.598
+  ],
+  "hex": [
+   22,
+   36
+  ],
+  "osmId": "node/197736787"
+ },
+ {
+  "name": "Gendt",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   19.183,
+   19.452
+  ],
+  "hex": [
+   19,
+   22
+  ],
+  "osmId": "node/44207712"
+ },
+ {
+  "name": "Groessen",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   23.136,
+   13.635
+  ],
+  "hex": [
+   22,
+   15
+  ],
+  "osmId": "node/1929097264"
+ },
+ {
+  "name": "Haalderen",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   16.131,
+   18.757
+  ],
+  "hex": [
+   15,
+   21
+  ],
+  "osmId": "node/9173382915"
+ },
+ {
+  "name": "Heelsum",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   4.292,
+   8.069
+  ],
+  "hex": [
+   3,
+   9
+  ],
+  "osmId": "node/5432311051"
+ },
+ {
+  "name": "Heilig Landstichting",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   13.785,
+   26.491
+  ],
+  "hex": [
+   13,
+   30
+  ],
+  "osmId": "node/8699119376"
+ },
+ {
+  "name": "Herveld",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   3.322,
+   16.653
+  ],
+  "hex": [
+   2,
+   19
+  ],
+  "osmId": "node/5544031873"
+ },
+ {
+  "name": "Heteren",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   4.442,
+   11.158
+  ],
+  "hex": [
+   4,
+   12
+  ],
+  "osmId": "node/1445275428"
+ },
+ {
+  "name": "Heumen",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   10.549,
+   32.268
+  ],
+  "hex": [
+   10,
+   36
+  ],
+  "osmId": "node/5462931837"
+ },
+ {
+  "name": "Heveadorp",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   7.993,
+   8.877
+  ],
+  "hex": [
+   7,
+   9
+  ],
+  "osmId": "node/44683299"
+ },
+ {
+  "name": "Katwijk",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   12.53,
+   33.895
+  ],
+  "hex": [
+   12,
+   38
+  ],
+  "osmId": "node/5462931835"
+ },
+ {
+  "name": "Kekerdom",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   21.834,
+   21.154
+  ],
+  "hex": [
+   21,
+   24
+  ],
+  "osmId": "node/44138372"
+ },
+ {
+  "name": "Lathum",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   22.439,
+   7.543
+  ],
+  "hex": [
+   22,
+   8
+  ],
+  "osmId": "node/5544031871"
+ },
+ {
+  "name": "Lent",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   12.05,
+   21.235
+  ],
+  "hex": [
+   12,
+   24
+  ],
+  "osmId": "node/1564939668"
+ },
+ {
+  "name": "Leur",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   0.124,
+   26.447
+  ],
+  "hex": [
+   0,
+   30
+  ],
+  "osmId": "node/2877720789"
+ },
+ {
+  "name": "Leuth",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   20.783,
+   24.092
+  ],
+  "hex": [
+   20,
+   27
+  ],
+  "osmId": "node/44043139"
+ },
+ {
+  "name": "Linden",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   9.451,
+   34.151
+  ],
+  "hex": [
+   8,
+   39
+  ],
+  "osmId": "node/43735950"
+ },
+ {
+  "name": "Loo",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   20.409,
+   13.83
+  ],
+  "hex": [
+   19,
+   15
+  ],
+  "osmId": "node/13395447719"
+ },
+ {
+  "name": "Malden",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   11.207,
+   30.613
+  ],
+  "hex": [
+   10,
+   35
+  ],
+  "osmId": "node/43850895"
+ },
+ {
+  "name": "Mehr",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   25.156,
+   27.143
+  ],
+  "hex": [
+   24,
+   31
+  ],
+  "osmId": "node/4338629405"
+ },
+ {
+  "name": "Millingen aan de Rijn",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   24.363,
+   21.159
+  ],
+  "hex": [
+   24,
+   24
+  ],
+  "osmId": "node/1963369489"
+ },
+ {
+  "name": "Molenhoek",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   12.438,
+   32.154
+  ],
+  "hex": [
+   12,
+   36
+  ],
+  "osmId": "node/5462931856"
+ },
+ {
+  "name": "Mook",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   13.319,
+   33.674
+  ],
+  "hex": [
+   13,
+   38
+  ],
+  "osmId": "node/3123213614"
+ },
+ {
+  "name": "Nederasselt",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   3.825,
+   31.416
+  ],
+  "hex": [
+   3,
+   36
+  ],
+  "osmId": "node/43806678"
+ },
+ {
+  "name": "Niel",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   22.55,
+   25.4
+  ],
+  "hex": [
+   22,
+   29
+  ],
+  "osmId": "node/206996928"
+ },
+ {
+  "name": "Ooij",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   17.012,
+   22.316
+  ],
+  "hex": [
+   16,
+   25
+  ],
+  "osmId": "node/44100687"
+ },
+ {
+  "name": "Oosterhout",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   9.284,
+   19.52
+  ],
+  "hex": [
+   9,
+   22
+  ],
+  "osmId": "node/44208661"
+ },
+ {
+  "name": "Overasselt",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   6.747,
+   32.778
+  ],
+  "hex": [
+   6,
+   37
+  ],
+  "osmId": "node/9173382916"
+ },
+ {
+  "name": "Pannerden",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   23.715,
+   18.244
+  ],
+  "hex": [
+   23,
+   20
+  ],
+  "osmId": "node/44262882"
+ },
+ {
+  "name": "Randwijk",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   1.169,
+   11.403
+  ],
+  "hex": [
+   0,
+   13
+  ],
+  "osmId": "node/2696924149"
+ },
+ {
+  "name": "Renkum",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   2.799,
+   8.977
+  ],
+  "hex": [
+   2,
+   10
+  ],
+  "osmId": "node/44680287"
+ },
+ {
+  "name": "Rozendaal",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   18.342,
+   5.767
+  ],
+  "hex": [
+   18,
+   6
+  ],
+  "osmId": "node/44813782"
+ },
+ {
+  "name": "Schottheide",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   24.061,
+   31.569
+  ],
+  "hex": [
+   24,
+   36
+  ],
+  "osmId": "node/223291365"
+ },
+ {
+  "name": "Slijk-Ewijk",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   6.751,
+   18.701
+  ],
+  "hex": [
+   6,
+   21
+  ],
+  "osmId": "node/44246863"
+ },
+ {
+  "name": "Ubbergen",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   14.405,
+   24.296
+  ],
+  "hex": [
+   13,
+   27
+  ],
+  "osmId": "node/44042524"
+ },
+ {
+  "name": "Valburg",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   6.615,
+   16.089
+  ],
+  "hex": [
+   6,
+   18
+  ],
+  "osmId": "node/9173408385"
+ },
+ {
+  "name": "Velp",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   1.734,
+   32.761
+  ],
+  "hex": [
+   1,
+   37
+  ],
+  "osmId": "node/43774210"
+ },
+ {
+  "name": "Wageningen-Hoog",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   0.199,
+   7.327
+  ],
+  "hex": [
+   0,
+   8
+  ],
+  "osmId": "node/8004613245"
+ },
+ {
+  "name": "Weurt",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   8.496,
+   21.944
+  ],
+  "hex": [
+   7,
+   25
+  ],
+  "osmId": "node/10164031556"
+ },
+ {
+  "name": "Winssen",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   1.001,
+   19.372
+  ],
+  "hex": [
+   1,
+   22
+  ],
+  "osmId": "node/12072061907"
+ },
+ {
+  "name": "Wolfheze",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   6.836,
+   5.63
+  ],
+  "hex": [
+   6,
+   6
+  ],
+  "osmId": "node/1926820655"
+ },
+ {
+  "name": "Wyler",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   18.864,
+   27.409
+  ],
+  "hex": [
+   18,
+   31
+  ],
+  "osmId": "node/197701220"
+ },
+ {
+  "name": "Zetten",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   1.44,
+   14.185
+  ],
+  "hex": [
+   1,
+   16
+  ],
+  "osmId": "node/1445275463"
+ },
+ {
+  "name": "Zyfflich",
+  "kind": "village",
+  "priority": 3,
+  "at": [
+   19.439,
+   25.741
+  ],
+  "hex": [
+   18,
+   29
+  ],
+  "osmId": "node/1865539651"
+ },
+ {
+  "name": "'t Vosseneind",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   9.527,
+   32.013
+  ],
+  "hex": [
+   9,
+   36
+  ],
+  "osmId": "node/43789844"
+ },
+ {
+  "name": "'t Zand",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   12.525,
+   19.882
+  ],
+  "hex": [
+   12,
+   22
+  ],
+  "osmId": "node/44191434"
+ },
+ {
+  "name": "Baal",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   15.589,
+   17.446
+  ],
+  "hex": [
+   15,
+   20
+  ],
+  "osmId": "node/44300051"
+ },
+ {
+  "name": "Bahr",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   24.191,
+   7.77
+  ],
+  "hex": [
+   24,
+   8
+  ],
+  "osmId": "node/44732228"
+ },
+ {
+  "name": "Bergerden",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   16.146,
+   14.818
+  ],
+  "hex": [
+   15,
+   17
+  ],
+  "osmId": "node/44406804"
+ },
+ {
+  "name": "Bisselt",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   14.703,
+   32.967
+  ],
+  "hex": [
+   14,
+   37
+  ],
+  "osmId": "node/43766969"
+ },
+ {
+  "name": "Blankenberg",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   9.564,
+   30.703
+  ],
+  "hex": [
+   9,
+   35
+  ],
+  "osmId": "node/8928239178"
+ },
+ {
+  "name": "Boerenhoek",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   19.654,
+   16.772
+  ],
+  "hex": [
+   19,
+   19
+  ],
+  "osmId": "node/9173365934"
+ },
+ {
+  "name": "Boskant",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   4.975,
+   29.83
+  ],
+  "hex": [
+   4,
+   34
+  ],
+  "osmId": "node/43846595"
+ },
+ {
+  "name": "Bullenkamp",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   6.223,
+   29.806
+  ],
+  "hex": [
+   6,
+   34
+  ],
+  "osmId": "node/43845016"
+ },
+ {
+  "name": "Colonjes",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   16.662,
+   32.077
+  ],
+  "hex": [
+   16,
+   36
+  ],
+  "osmId": "node/8712048721"
+ },
+ {
+  "name": "De Elft",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   2.752,
+   34.041
+  ],
+  "hex": [
+   2,
+   39
+  ],
+  "osmId": "node/43739454"
+ },
+ {
+  "name": "De Ginkel",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   2.582,
+   0.994
+  ],
+  "hex": [
+   2,
+   0
+  ],
+  "osmId": "node/6033588871"
+ },
+ {
+  "name": "De Kamp",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   17.155,
+   29.672
+  ],
+  "hex": [
+   17,
+   34
+  ],
+  "osmId": "node/8712038563"
+ },
+ {
+  "name": "De Pas",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   13.599,
+   19.25
+  ],
+  "hex": [
+   13,
+   22
+  ],
+  "osmId": "node/44218833"
+ },
+ {
+  "name": "De Pas",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   22.016,
+   17.964
+  ],
+  "hex": [
+   22,
+   20
+  ],
+  "osmId": "node/44276709"
+ },
+ {
+  "name": "De Schatkuil",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   6.418,
+   30.451
+  ],
+  "hex": [
+   6,
+   34
+  ],
+  "osmId": "node/298515805"
+ },
+ {
+  "name": "De Vlietberg",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   13.575,
+   21.62
+  ],
+  "hex": [
+   13,
+   24
+  ],
+  "osmId": "node/8715366841"
+ },
+ {
+  "name": "Dekkerswald",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   14.11,
+   28.125
+  ],
+  "hex": [
+   14,
+   32
+  ],
+  "osmId": "node/8715370678"
+ },
+ {
+  "name": "Doornik",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   13.27,
+   20.348
+  ],
+  "hex": [
+   12,
+   23
+  ],
+  "osmId": "node/44172211"
+ },
+ {
+  "name": "Eimeren",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   7.913,
+   16.67
+  ],
+  "hex": [
+   7,
+   19
+  ],
+  "osmId": "node/44330793"
+ },
+ {
+  "name": "Elden",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   13.099,
+   10.799
+  ],
+  "hex": [
+   13,
+   12
+  ],
+  "osmId": "node/6587211637"
+ },
+ {
+  "name": "Erlecom",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   18.703,
+   22.931
+  ],
+  "hex": [
+   18,
+   26
+  ],
+  "osmId": "node/44080105"
+ },
+ {
+  "name": "Ewijk",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   5.516,
+   32.995
+  ],
+  "hex": [
+   5,
+   38
+  ],
+  "osmId": "node/5310681730"
+ },
+ {
+  "name": "Flieren",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   18.372,
+   18.402
+  ],
+  "hex": [
+   17,
+   21
+  ],
+  "osmId": "node/44256766"
+ },
+ {
+  "name": "Grafwegen",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   17.374,
+   33.712
+  ],
+  "hex": [
+   17,
+   38
+  ],
+  "osmId": "node/43745984"
+ },
+ {
+  "name": "Grafwegen",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   18.345,
+   33.983
+  ],
+  "hex": [
+   17,
+   39
+  ],
+  "osmId": "node/1865539531"
+ },
+ {
+  "name": "Groenlanden",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   14.985,
+   20.535
+  ],
+  "hex": [
+   14,
+   23
+  ],
+  "osmId": "node/5494671546"
+ },
+ {
+  "name": "Haukes",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   22.473,
+   21.469
+  ],
+  "hex": [
+   22,
+   24
+  ],
+  "osmId": "node/9173390117"
+ },
+ {
+  "name": "Heide",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   8.837,
+   30.6
+  ],
+  "hex": [
+   8,
+   35
+  ],
+  "osmId": "node/43826855"
+ },
+ {
+  "name": "Heiveld",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   6.272,
+   29.04
+  ],
+  "hex": [
+   5,
+   33
+  ],
+  "osmId": "node/43859309"
+ },
+ {
+  "name": "Helhoek",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   23.898,
+   13.397
+  ],
+  "hex": [
+   23,
+   15
+  ],
+  "osmId": "node/4363454411"
+ },
+ {
+  "name": "Hoeve",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   2.948,
+   21.479
+  ],
+  "hex": [
+   2,
+   24
+  ],
+  "osmId": "node/5310370355"
+ },
+ {
+  "name": "Holdeurn",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   17.36,
+   26.833
+  ],
+  "hex": [
+   17,
+   30
+  ],
+  "osmId": "node/8709415004"
+ },
+ {
+  "name": "Homoet",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   6.89,
+   13.558
+  ],
+  "hex": [
+   6,
+   15
+  ],
+  "osmId": "node/44469359"
+ },
+ {
+  "name": "Honderdmorgen",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   20.998,
+   16.967
+  ],
+  "hex": [
+   20,
+   19
+  ],
+  "osmId": "node/44317518"
+ },
+ {
+  "name": "Hoogbroek",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   5.286,
+   27.344
+  ],
+  "hex": [
+   4,
+   31
+  ],
+  "osmId": "node/43912813"
+ },
+ {
+  "name": "Hulhuizen",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   20.002,
+   19.214
+  ],
+  "hex": [
+   19,
+   21
+  ],
+  "osmId": "node/44217936"
+ },
+ {
+  "name": "Indoornik",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   1.43,
+   12.415
+  ],
+  "hex": [
+   1,
+   14
+  ],
+  "osmId": "node/3135983290"
+ },
+ {
+  "name": "Kapel",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   19.304,
+   18.997
+  ],
+  "hex": [
+   18,
+   21
+  ],
+  "osmId": "node/44228375"
+ },
+ {
+  "name": "Keent",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   0.008,
+   31.527
+  ],
+  "hex": [
+   0,
+   36
+  ],
+  "osmId": "node/5373194237"
+ },
+ {
+  "name": "Keulse Kamp",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   8.393,
+   11.445
+  ],
+  "hex": [
+   8,
+   12
+  ],
+  "osmId": "node/44566199"
+ },
+ {
+  "name": "Kievitsdel",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   6.286,
+   8.077
+  ],
+  "hex": [
+   5,
+   9
+  ],
+  "osmId": "node/44720537"
+ },
+ {
+  "name": "Kijfwaard",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   24.675,
+   19.853
+  ],
+  "hex": [
+   24,
+   22
+  ],
+  "osmId": "node/44187943"
+ },
+ {
+  "name": "Klispoel",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   0.996,
+   28.771
+  ],
+  "hex": [
+   0,
+   33
+  ],
+  "osmId": "node/43865789"
+ },
+ {
+  "name": "Kommerdijk",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   18.243,
+   20.389
+  ],
+  "hex": [
+   17,
+   23
+  ],
+  "osmId": "node/44169035"
+ },
+ {
+  "name": "Lagewald",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   19.128,
+   28.137
+  ],
+  "hex": [
+   19,
+   32
+  ],
+  "osmId": "node/8709324625"
+ },
+ {
+  "name": "Leedjes",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   8.868,
+   10.173
+  ],
+  "hex": [
+   8,
+   11
+  ],
+  "osmId": "node/44624993"
+ },
+ {
+  "name": "Lijnden",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   8.54,
+   15.307
+  ],
+  "hex": [
+   8,
+   17
+  ],
+  "osmId": "node/44389053"
+ },
+ {
+  "name": "Loenen",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   5.74,
+   18.691
+  ],
+  "hex": [
+   5,
+   21
+  ],
+  "osmId": "node/44247896"
+ },
+ {
+  "name": "Looveer",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   18.29,
+   13.137
+  ],
+  "hex": [
+   18,
+   14
+  ],
+  "osmId": "node/44485616"
+ },
+ {
+  "name": "Lunen",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   3.425,
+   30.239
+  ],
+  "hex": [
+   3,
+   34
+  ],
+  "osmId": "node/8884056806"
+ },
+ {
+  "name": "Meerwijk",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   14.841,
+   26.858
+  ],
+  "hex": [
+   14,
+   30
+  ],
+  "osmId": "node/8715361520"
+ },
+ {
+  "name": "Merm",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   11.604,
+   16.668
+  ],
+  "hex": [
+   11,
+   18
+  ],
+  "osmId": "node/44339352"
+ },
+ {
+  "name": "Molenhoek",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   4.56,
+   31.642
+  ],
+  "hex": [
+   4,
+   36
+  ],
+  "osmId": "node/43801244"
+ },
+ {
+  "name": "Nieuwgraaf",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   21.164,
+   9.001
+  ],
+  "hex": [
+   21,
+   10
+  ],
+  "osmId": "node/44674080"
+ },
+ {
+  "name": "Ooij",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   25.268,
+   15.041
+  ],
+  "hex": [
+   24,
+   17
+  ],
+  "osmId": "node/1961421271"
+ },
+ {
+  "name": "Oud-Reemst",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   7.967,
+   1.349
+  ],
+  "hex": [
+   7,
+   1
+  ],
+  "osmId": "node/44993352"
+ },
+ {
+  "name": "Persingen",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   15.605,
+   23.789
+  ],
+  "hex": [
+   15,
+   27
+  ],
+  "osmId": "node/44054123"
+ },
+ {
+  "name": "Plak",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   20.252,
+   31.647
+  ],
+  "hex": [
+   20,
+   36
+  ],
+  "osmId": "node/3130108775"
+ },
+ {
+  "name": "Raayen",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   9.991,
+   13.619
+  ],
+  "hex": [
+   9,
+   15
+  ],
+  "osmId": "node/44462916"
+ },
+ {
+  "name": "Reeth",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   9.494,
+   17.52
+  ],
+  "hex": [
+   9,
+   20
+  ],
+  "osmId": "node/44299326"
+ },
+ {
+  "name": "Ressen",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   12.102,
+   18.279
+  ],
+  "hex": [
+   11,
+   21
+  ],
+  "osmId": "node/44265624"
+ },
+ {
+  "name": "Schoonenburg",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   5.312,
+   31.942
+  ],
+  "hex": [
+   5,
+   36
+  ],
+  "osmId": "node/9131892715"
+ },
+ {
+  "name": "Sleeburg",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   7.452,
+   32.042
+  ],
+  "hex": [
+   7,
+   36
+  ],
+  "osmId": "node/43789069"
+ },
+ {
+  "name": "Snodenhoek",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   9.832,
+   14.158
+  ],
+  "hex": [
+   9,
+   16
+  ],
+  "osmId": "node/44436976"
+ },
+ {
+  "name": "Sterreschans",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   22.734,
+   18.361
+  ],
+  "hex": [
+   22,
+   21
+  ],
+  "osmId": "node/824893866"
+ },
+ {
+  "name": "Teersdijk",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   5.309,
+   26.5
+  ],
+  "hex": [
+   5,
+   30
+  ],
+  "osmId": "node/43945661"
+ },
+ {
+  "name": "Tiengeboden",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   14.446,
+   21.922
+  ],
+  "hex": [
+   13,
+   25
+  ],
+  "osmId": "node/1929110661"
+ },
+ {
+  "name": "Valenberg",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   6.909,
+   30.981
+  ],
+  "hex": [
+   6,
+   35
+  ],
+  "osmId": "node/43818503"
+ },
+ {
+  "name": "Valkenlaagte",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   16.217,
+   27.014
+  ],
+  "hex": [
+   15,
+   31
+  ],
+  "osmId": "node/8712046537"
+ },
+ {
+  "name": "Vossenpels",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   12.752,
+   19.993
+  ],
+  "hex": [
+   12,
+   22
+  ],
+  "osmId": "node/44186150"
+ },
+ {
+  "name": "Wercheren",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   17.676,
+   23.821
+  ],
+  "hex": [
+   17,
+   27
+  ],
+  "osmId": "node/44054112"
+ },
+ {
+  "name": "Wezel",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   2.254,
+   24.45
+  ],
+  "hex": [
+   2,
+   28
+  ],
+  "osmId": "node/44035600"
+ },
+ {
+  "name": "Woezikrot",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   4.397,
+   26.017
+  ],
+  "hex": [
+   3,
+   29
+  ],
+  "osmId": "node/43965375"
+ },
+ {
+  "name": "Wolferen",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   2.58,
+   18.343
+  ],
+  "hex": [
+   2,
+   20
+  ],
+  "osmId": "node/44265162"
+ },
+ {
+  "name": "Worsum",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   7.947,
+   32.218
+  ],
+  "hex": [
+   7,
+   37
+  ],
+  "osmId": "node/1929100906"
+ },
+ {
+  "name": "Zaalheuvel",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   1.67,
+   33.882
+  ],
+  "hex": [
+   1,
+   38
+  ],
+  "osmId": "node/43743750"
+ },
+ {
+  "name": "Zandheuvel",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   16.75,
+   19.365
+  ],
+  "hex": [
+   16,
+   22
+  ],
+  "osmId": "node/9173382914"
+ },
+ {
+  "name": "Zandvoort",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   17.567,
+   19.584
+  ],
+  "hex": [
+   17,
+   22
+  ],
+  "osmId": "node/44202925"
+ },
+ {
+  "name": "Zeeland",
+  "kind": "hamlet",
+  "priority": 4,
+  "at": [
+   23.296,
+   22.071
+  ],
+  "hex": [
+   22,
+   25
+  ],
+  "osmId": "node/8715349314"
+ }
+]

@@ -1,0 +1,196 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "id": "remove-a12",
+        "action": "remove",
+        "layers": ["roads"],
+        "match": {
+          "ref": "A12"
+        },
+        "source": "PLAN 9 step 4 names this as post-war (motorway A12). TODO(history): add a source for its construction date to docs/history."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "id": "remove-a50",
+        "action": "remove",
+        "layers": ["roads"],
+        "match": {
+          "ref": "A50"
+        },
+        "source": "PLAN 9 step 4 names this as post-war (motorway A50). TODO(history): add a source for its construction date to docs/history."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "id": "remove-a325",
+        "action": "remove",
+        "layers": ["roads"],
+        "match": {
+          "ref": "A325"
+        },
+        "note": "Only ref A325. The N325 stays: it carries the Waalbrug (Nijmegen Road Bridge).",
+        "source": "PLAN 9 step 4 names this as post-war (motorway A325). TODO(history): add a source for its construction date to docs/history."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "id": "remove-a15",
+        "action": "remove",
+        "layers": ["roads"],
+        "match": {
+          "ref": "A15"
+        },
+        "source": "TODO(history): motorway assumed post-war; not named in PLAN 9 or docs/history."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "id": "remove-a73",
+        "action": "remove",
+        "layers": ["roads"],
+        "match": {
+          "ref": "A73"
+        },
+        "source": "TODO(history): motorway assumed post-war; not named in PLAN 9 or docs/history."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "id": "remove-a326",
+        "action": "remove",
+        "layers": ["roads"],
+        "match": {
+          "ref": "A326"
+        },
+        "source": "TODO(history): motorway assumed post-war; not named in PLAN 9 or docs/history."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "id": "remove-a348",
+        "action": "remove",
+        "layers": ["roads"],
+        "match": {
+          "ref": "A348"
+        },
+        "source": "TODO(history): motorway assumed post-war; not named in PLAN 9 or docs/history."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "id": "remove-de-oversteek",
+        "action": "remove",
+        "layers": ["roads"],
+        "match": {
+          "bridge:name": "De Oversteek"
+        },
+        "source": "PLAN 9 step 4 names this as post-war (modern Waal bridges). TODO(history): add a source for its construction date to docs/history."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "id": "remove-nelson-mandelabrug",
+        "action": "remove",
+        "layers": ["roads"],
+        "match": {
+          "name": "Nelson Mandelabrug"
+        },
+        "source": "TODO(history): second Arnhem Rhine road bridge, assumed post-war; not named in PLAN 9 or docs/history."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "id": "remove-andrej-sacharovbrug",
+        "action": "remove",
+        "layers": ["roads"],
+        "match": {
+          "bridge:name": "Andrej Sacharovbrug"
+        },
+        "source": "TODO(history): Arnhem Rhine road bridge (Pleijroute), assumed post-war; not named in PLAN 9 or docs/history."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "id": "remove-betuweroute",
+        "action": "remove",
+        "layers": ["rail"],
+        "match": {
+          "name": "Betuweroute"
+        },
+        "source": "TODO(history): freight railway across the Island, assumed post-war; PLAN 9 names the Pannerdens Kanaal bridges as post-war but not the line itself."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "id": "remove-spiegelwaal",
+        "action": "remove",
+        "layers": ["water"],
+        "match": {
+          "name": "Spiegelwaal"
+        },
+        "source": "TODO(history): side channel of the Waal at Lent, assumed post-war; not named in PLAN 9 or docs/history."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "id": "include-heveadorp-ferry",
+        "action": "include",
+        "layers": ["ferries"],
+        "match": {
+          "name": "Drielse Veer"
+        },
+        "source": "docs/history/zones.md: Heveadorp–Driel ferry (Liberation Route). Located as the OSM ferry Drielse Veer between Heveadorp and Driel."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "id": "include-pannerden-ferry",
+        "action": "include",
+        "layers": ["ferries"],
+        "match": {
+          "name": "Pannerden-Doornenburg"
+        },
+        "source": "docs/history/german-forces.md: 10th SS crossed by the Pannerden ferry (PLAN 14.2, confirmed). TODO(history): confirm that the 1944 ferry ran on the line of today's Pannerden–Doornenburg ferry."
+      }
+    }
+  ],
+  "todo": [
+    "TODO(history): 1944 town extents. Built-up hexes come from today's residential areas, so post-war districts (for example south of the Rhine at Arnhem and north of the Waal at Nijmegen) count as built-up. Needs a 1944 map source (PLAN 9 step 4) before they can be cut back.",
+    "TODO(history): post-war suburbs (PLAN 9 step 4) need polygons from a dated 1944 map; none are in docs/history.",
+    "TODO(history): Arnhem pontoon bridge. No location in docs/history and not in OpenStreetMap; it is not crossable, so it is not added as a crossing.",
+    "TODO(history): Nijmegen rail bridge layout (PLAN 9 step 4). docs/history has no description of the 1944 layout; the OSM rail bridge is used as is.",
+    "TODO(history): Pannerdens Kanaal bridges (PLAN 9 step 4). The ones in OpenStreetMap carry the A15 and the Betuweroute and are removed with them; check none remain.",
+    "TODO(history): bridges kept from OpenStreetMap without a 1944 source: Maas–Waal canal bridges, Maas bridges, IJssel bridges at Westervoort and the Mook rail bridge. Check each against a 1944 source."
+  ]
+}

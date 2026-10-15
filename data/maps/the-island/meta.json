@@ -1,0 +1,139 @@
+{
+  "id": "the-island",
+  "name": "The Island",
+  "extentNote": "PLAN 5: from Heelsum in the west to Pannerden in the east, and from north of Arnhem to Groesbeek and Overasselt in the south. Widened to take in Ginkel Heath (DZ Y) in the north-west and the ground south of Groesbeek (DZ N).",
+  "projection": "EPSG:28992",
+  "mapUnits": "km, x east and y south from the north-west corner",
+  "originRD": {
+    "x": 176000,
+    "y": 452000
+  },
+  "sizeKm": [
+    25.5,
+    34.93
+  ],
+  "wgs84Corners": {
+    "northWest": [
+      5.69339,
+      52.055908
+    ],
+    "northEast": [
+      6.065167,
+      52.054354
+    ],
+    "southWest": [
+      5.691258,
+      51.741954
+    ],
+    "southEast": [
+      6.060448,
+      51.740414
+    ]
+  },
+  "sources": {
+    "openStreetMap": {
+      "attribution": "© OpenStreetMap contributors",
+      "licence": "ODbL 1.0",
+      "url": "https://www.openstreetmap.org/copyright",
+      "dataTimestamp": "2026-10-15T20:44:21Z"
+    },
+    "elevation": {
+      "attribution": "SRTM 1 arc-second (NASA/USGS), via the AWS Terrain Tiles open dataset",
+      "licence": "Public domain"
+    }
+  },
+  "overrides": [
+    {
+      "id": "remove-a12",
+      "action": "remove",
+      "applied": 184,
+      "source": "PLAN 9 step 4 names this as post-war (motorway A12). TODO(history): add a source for its construction date to docs/history."
+    },
+    {
+      "id": "remove-a50",
+      "action": "remove",
+      "applied": 243,
+      "source": "PLAN 9 step 4 names this as post-war (motorway A50). TODO(history): add a source for its construction date to docs/history."
+    },
+    {
+      "id": "remove-a325",
+      "action": "remove",
+      "applied": 58,
+      "source": "PLAN 9 step 4 names this as post-war (motorway A325). TODO(history): add a source for its construction date to docs/history."
+    },
+    {
+      "id": "remove-a15",
+      "action": "remove",
+      "applied": 90,
+      "source": "TODO(history): motorway assumed post-war; not named in PLAN 9 or docs/history."
+    },
+    {
+      "id": "remove-a73",
+      "action": "remove",
+      "applied": 131,
+      "source": "TODO(history): motorway assumed post-war; not named in PLAN 9 or docs/history."
+    },
+    {
+      "id": "remove-a326",
+      "action": "remove",
+      "applied": 28,
+      "source": "TODO(history): motorway assumed post-war; not named in PLAN 9 or docs/history."
+    },
+    {
+      "id": "remove-a348",
+      "action": "remove",
+      "applied": 70,
+      "source": "TODO(history): motorway assumed post-war; not named in PLAN 9 or docs/history."
+    },
+    {
+      "id": "remove-de-oversteek",
+      "action": "remove",
+      "applied": 6,
+      "source": "PLAN 9 step 4 names this as post-war (modern Waal bridges). TODO(history): add a source for its construction date to docs/history."
+    },
+    {
+      "id": "remove-nelson-mandelabrug",
+      "action": "remove",
+      "applied": 5,
+      "source": "TODO(history): second Arnhem Rhine road bridge, assumed post-war; not named in PLAN 9 or docs/history."
+    },
+    {
+      "id": "remove-andrej-sacharovbrug",
+      "action": "remove",
+      "applied": 3,
+      "source": "TODO(history): Arnhem Rhine road bridge (Pleijroute), assumed post-war; not named in PLAN 9 or docs/history."
+    },
+    {
+      "id": "remove-betuweroute",
+      "action": "remove",
+      "applied": 86,
+      "source": "TODO(history): freight railway across the Island, assumed post-war; PLAN 9 names the Pannerdens Kanaal bridges as post-war but not the line itself."
+    },
+    {
+      "id": "remove-spiegelwaal",
+      "action": "remove",
+      "applied": 4,
+      "source": "TODO(history): side channel of the Waal at Lent, assumed post-war; not named in PLAN 9 or docs/history."
+    },
+    {
+      "id": "include-heveadorp-ferry",
+      "action": "include",
+      "applied": 1,
+      "source": "docs/history/zones.md: Heveadorp–Driel ferry (Liberation Route). Located as the OSM ferry Drielse Veer between Heveadorp and Driel."
+    },
+    {
+      "id": "include-pannerden-ferry",
+      "action": "include",
+      "applied": 1,
+      "source": "docs/history/german-forces.md: 10th SS crossed by the Pannerden ferry (PLAN 14.2, confirmed). TODO(history): confirm that the 1944 ferry ran on the line of today's Pannerden–Doornenburg ferry."
+    }
+  ],
+  "todo": [
+    "TODO(history): 1944 town extents. Built-up hexes come from today's residential areas, so post-war districts (for example south of the Rhine at Arnhem and north of the Waal at Nijmegen) count as built-up. Needs a 1944 map source (PLAN 9 step 4) before they can be cut back.",
+    "TODO(history): post-war suburbs (PLAN 9 step 4) need polygons from a dated 1944 map; none are in docs/history.",
+    "TODO(history): Arnhem pontoon bridge. No location in docs/history and not in OpenStreetMap; it is not crossable, so it is not added as a crossing.",
+    "TODO(history): Nijmegen rail bridge layout (PLAN 9 step 4). docs/history has no description of the 1944 layout; the OSM rail bridge is used as is.",
+    "TODO(history): Pannerdens Kanaal bridges (PLAN 9 step 4). The ones in OpenStreetMap carry the A15 and the Betuweroute and are removed with them; check none remain.",
+    "TODO(history): bridges kept from OpenStreetMap without a 1944 source: Maas–Waal canal bridges, Maas bridges, IJssel bridges at Westervoort and the Mook rail bridge. Check each against a 1944 source."
+  ]
+}
